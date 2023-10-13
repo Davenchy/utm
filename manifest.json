@@ -1,0 +1,42 @@
+{
+	"manifest_version": 2,
+	"name": "Universal Tabs Manager",
+	"version": "1.0",
+	"short_name": "UTM",
+	"description": "Simple, clean and powerful tabs manager",
+	"icons": {
+		"32": "icons/Android.png"
+	},
+	"chrome_url_overrides": {
+		"newtab": "homepage.html"
+	},
+	"permissions": [
+		"storage",
+		"activeTab",
+		"scripting",
+		"tabs"
+	],
+	"browser_action": {
+		"default_title": "UTM",
+		"default_popup": "popup/pop.html",
+		"default_icon": "icons/Android.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["*://*.google.com/*"],
+			"js": ["/content.js"]
+		}
+	],
+	"background": {
+		"scripts": ["controller.js"]
+	},
+	"omnibox": {
+		"keyword": "utm"
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "utm@davenchy.dev",
+			"strict_min_version": "42.0"
+		}
+	}
+}
