@@ -1,0 +1,36 @@
+{
+  "name": "universal-tabs-manager",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsc && vite build --watch --mode development",
+    "browser": "web-ext run --source-dir ./dist/",
+    "browser:dev": "web-ext run --devtools --source-dir ./dist/",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "dependencies": {
+    "@types/firefox-webext-browser": "^111.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite-plugin-chrome-extension": "^0.0.7",
+    "vite-plugin-web-extension": "^3.2.0",
+    "webextension-polyfill": "^0.10.0"
+  },
+  "devDependencies": {
+    "@samrum/vite-plugin-web-extension": "^5.0.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "web-ext": "^7.8.0"
+  }
+}
