@@ -8,7 +8,7 @@
 
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
 - Start firefox with the extension installed for debugging

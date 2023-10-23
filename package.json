@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsc && vite build --watch --mode development",
+    "dev": "tsc && vite build --watch --mode development",
     "browser": "web-ext run --source-dir ./dist/",
     "browser:dev": "web-ext run --devtools --source-dir ./dist/",
     "build": "tsc && vite build",
