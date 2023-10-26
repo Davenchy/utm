@@ -1,6 +1,7 @@
 import "@/main.css";
 import Clock from "./components/clock";
 import Background from "./components/background";
+import QuickLinks from "./components/quick-links";
 
 function SimpleButton({
 	label,
@@ -27,6 +28,7 @@ function NewTab() {
 				items-center">
 				<div></div>
 				<Clock />
+				<QuickLinks />
 				<div className="w-full h-12 px-2 flex justify-between items-center">
 					<SimpleButton label="Settings" onClick={() => { }} />
 					<div className="space-x-4">
