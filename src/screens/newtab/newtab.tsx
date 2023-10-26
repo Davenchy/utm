@@ -54,7 +54,7 @@ function Clock() {
 		<span className="p-4 text-9xl">{h < 10 ? "0" + h : h}</span>
 		<div className="flex flex-col text-5xl text-center">
 			<span>{dp}</span>
-			<span>{m < 10 ? "0" : m}</span>
+			<span>{m < 10 ? "0" + m : m}</span>
 		</div>
 	</div>;
 }
