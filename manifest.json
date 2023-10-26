@@ -5,17 +5,12 @@
   "manifest_version": 3,
   "description": "Simple, clean and powerful universal tabs manager",
   "icons": {
-    "16": "src/assets/icons/icon.png",
-    "48": "src/assets/icons/icon.png",
-    "128": "src/assets/icons/icon.png"
+    "16": "/icons/icon.png",
+    "48": "/icons/icon.png",
+    "128": "/icons/icon.png"
   },
   "chrome_url_overrides": {
-    "newtab": "src/newtab/index.html"
+    "newtab": "src/extension/newtab.html"
   },
-  "permissions": [
-    "tabs",
-    "storage",
-    "activeTab",
-    "scripting"
-  ]
+  "permissions": ["tabs", "storage", "activeTab", "scripting"]
 }
