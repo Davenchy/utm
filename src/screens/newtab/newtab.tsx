@@ -23,6 +23,7 @@ function SimpleButton({
 
 function NewTab() {
 	const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
+
 	return (
 		<div className="w-screen h-screen">
 			<Background />
@@ -32,10 +33,11 @@ function NewTab() {
 				<Clock />
 				{isQuickLinksOpened && <QuickLinks />}
 				<div className="w-full h-12 px-2 flex justify-between items-center">
-					<SimpleButton label="Settings" onClick={() => { }} />
-					<SimpleButton label={
-						(isQuickLinksOpened ? "Hide" : "Show") + " Quick Links"
-					} onClick={() => setIsQuickLinksOpened(s => !s)} />
+					<div className="space-x-4">
+						<SimpleButton label="Settings" onClick={() => { }} />
+						<SimpleButton label="Quick Links"
+							onClick={() => setIsQuickLinksOpened(s => !s)} />
+					</div>
 					<div className="space-x-4">
 						<SimpleButton label="Sessions" onClick={() => { }} />
 						<SimpleButton label="Todo" onClick={() => { }} />
