@@ -5,9 +5,9 @@
   "manifest_version": 3,
   "description": "Simple, clean and powerful universal tabs manager",
   "icons": {
-    "16": "src/assets/react.svg",
-    "48": "src/assets/react.svg",
-    "128": "src/assets/react.svg"
+    "16": "src/assets/icons/icon.png",
+    "48": "src/assets/icons/icon.png",
+    "128": "src/assets/icons/icon.png"
   },
   "chrome_url_overrides": {
     "newtab": "src/newtab/index.html"
