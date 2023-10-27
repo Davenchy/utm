@@ -2,24 +2,9 @@ import "@/main.css";
 import Clock from "./components/clock";
 import Background from "./components/background";
 import QuickLinks from "./components/quick-links";
+import SimpleButton from "./components/simple_button";
 import { useState } from "react";
 
-function SimpleButton({
-	label,
-	onClick
-}: {
-	label: string;
-	onClick: () => void;
-}) {
-	return (
-		<button
-			className="hover:bg-white/20 p-2 rounded cursor-pointer"
-			onClick={onClick}
-		>
-			{label}
-		</button>
-	);
-}
 
 function NewTab() {
 	const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
