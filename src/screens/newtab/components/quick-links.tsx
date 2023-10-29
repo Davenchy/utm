@@ -12,8 +12,9 @@ function QuickLink({
 	return (
 		<button
 			onClick={onClick}
-			className="hover:bg-black/10 w-16 h-16 overflow-hidden p-2 m-2
-			flex flex-col place-items-center justify-around rounded">
+			className="group hover:bg-black/10 w-16 h-16 overflow-hidden p-2 m-2
+			flex flex-col place-items-center justify-around rounded relative this">
+			<button className="options hover:bg-black/50 p-1 absolute top-[-7px] right-[0px] hidden group-hover:block">...</button>
 			<img src={icon} onClick={onClick} className="h-8 w-8" />
 			<span className="text-sm text-center">{title}</span>
 		</button>
