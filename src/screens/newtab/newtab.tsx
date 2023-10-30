@@ -3,6 +3,8 @@ import Clock from "./components/clock";
 import Background from "./components/background";
 import QuickLinks from "./components/quick-links";
 import { useState } from "react";
+import { useSettingsScope } from "@/shared/settings-manager";
+import { NewTabSettingsScope } from "@/types";
 
 function SimpleButton({
 	label,
@@ -21,6 +23,19 @@ function SimpleButton({
 	);
 }
 
+function BackgroundSettings() {
+	const scope = useSettingsScope<NewTabSettingsScope>("new-tab");
+
+	return (
+		<input
+			type="url"
+			className="text-black bg-white/20 shadow shadow-white/50 p-1 rounded w-1/2"
+			placeholder="Background Image URL (empty for default)"
+			value={scope.backgroundImage || ""}
+			onChange={(e) => scope.backgroundImage = e.target.value} />
+	)
+}
+
 function NewTab() {
 	const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
 
@@ -31,6 +46,7 @@ function NewTab() {
 				items-center">
 				<div></div>
 				<Clock />
+				<BackgroundSettings />
 				{isQuickLinksOpened && <QuickLinks />}
 				<div className="w-full h-12 px-2 flex justify-between items-center">
 					<div className="space-x-4">
