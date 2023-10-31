@@ -2,6 +2,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import "@/main.css";
 import Clock from "./components/clock";
+import SimpleButton from "./components/simple-button";
 import Background from "./components/background";
 import QuickLinks from "./components/quick-links";
 import { useState, useEffect, createContext } from "react";
@@ -14,22 +15,6 @@ export const linkContext = createContext<{
 	setLinks: (newState: QuickLinkType[]) => void;
 } | null>(null);
 
-function SimpleButton({
-	label,
-	onClick,
-}: {
-	label: string;
-	onClick: () => void;
-}) {
-	return (
-		<button
-			className="hover:bg-white/20 p-2 rounded cursor-pointer"
-			onClick={onClick}
-		>
-			{label}
-		</button>
-	);
-}
 
 function BackgroundSettings() {
 	const scope = useSettingsScope<NewTabSettingsScope>("new-tab");
@@ -61,7 +46,6 @@ function NewTab() {
 
 	return (
 		<div className="w-screen h-screen">
-			<linkContext.Provider value={{ links, setLinks }}></linkContext.Provider>
 			<Background />
 			<div className="h-full text-white flex flex-col justify-between
 				items-center">
