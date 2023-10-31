@@ -15,20 +15,20 @@ export const linkContext = createContext<{
 } | null>(null);
 
 function SimpleButton({
-  label,
-  onClick,
+	label,
+	onClick,
 }: {
-  label: string;
-  onClick: () => void;
+	label: string;
+	onClick: () => void;
 }) {
-  return (
-    <button
-      className="hover:bg-white/20 p-2 rounded cursor-pointer"
-      onClick={onClick}
-    >
-      {label}
-    </button>
-  );
+	return (
+		<button
+			className="hover:bg-white/20 p-2 rounded cursor-pointer"
+			onClick={onClick}
+		>
+			{label}
+		</button>
+	);
 }
 
 function BackgroundSettings() {
@@ -45,19 +45,19 @@ function BackgroundSettings() {
 }
 
 function NewTab() {
-  const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
-  const [links, setLinks] = useState<QuickLinkType[]>([]);
+	const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
+	const [links, setLinks] = useState<QuickLinkType[]>([]);
 
-  useEffect(() => {
-    const localss = localStorage.getItem("QuickLinks");
-    if (!localss) {
-      localStorage.setItem("QuickLinks", JSON.stringify(links));
-    }
-    const storage = localStorage.getItem("QuickLinks")
-      ? localStorage.getItem("QuickLinks")
-      : "";
-    setLinks(JSON.parse(storage!));
-  }, []);
+	useEffect(() => {
+		const localss = localStorage.getItem("QuickLinks");
+		if (!localss) {
+			localStorage.setItem("QuickLinks", JSON.stringify(links));
+		}
+		const storage = localStorage.getItem("QuickLinks")
+			? localStorage.getItem("QuickLinks")
+			: "";
+		setLinks(JSON.parse(storage!));
+	}, []);
 
 	return (
 		<div className="w-screen h-screen">
@@ -68,7 +68,11 @@ function NewTab() {
 				<div></div>
 				<Clock />
 				<BackgroundSettings />
-				{isQuickLinksOpened && <QuickLinks />}
+				{
+					isQuickLinksOpened && <linkContext.Provider value={{ links, setLinks }}>
+						<QuickLinks />
+					</linkContext.Provider>
+				}
 				<div className="w-full h-12 px-2 flex justify-between items-center">
 					<div className="space-x-4">
 						<SimpleButton label="Settings" onClick={() => { }} />
