@@ -1,6 +1,86 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { QuickLinkType } from "@/types";
-import { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useContext } from "react";
+import { linkContext } from "../newtab";
+
+function AddLink() {
+  const [name, setName] = useState("");
+  const [url, setUrl] = useState("");
+  const [promptVisible, setPromptVisible] = useState(false);
+  const links = useContext(linkContext);
+
+  const handleAddButtonClick = (event: any) => {
+    event.stopPropagation();
+    setPromptVisible(!promptVisible);
+  };
+
+  const handleSaveClick = (event: any) => {
+    event.stopPropagation();
+    event.target.closest(".addPrompt").style.display = "none";
+    const icoLink = new URL(url);
+    icoLink.pathname = "/favicon.ico";
+    const newl = links?.links;
+    newl?.push({ title: `${name}`, url: `${url}`, icon: `${icoLink}` });
+    links?.setLinks(newl!);
+    setName("");
+    setUrl("");
+    localStorage.setItem("QuickLinks", JSON.stringify(links?.links));
+  };
+
+  const handleCancelClick = (event: any) => {
+    event.stopPropagation();
+    setName("");
+    setUrl("");
+    event.target.closest(".addPrompt").style.display = "none";
+  };
+
+  return (
+    <div>
+      <button
+        className="hover:bg-black/10 w-16 h-16 flex content-center justify-center rounded relative"
+        onClick={handleAddButtonClick}
+      >
+        <span className="text-5xl">+</span>
+      </button>
+      <div
+        className="addPrompt absolute w-full h-full flex flex-wrap items-center content-center rounded bg-gray-700 top-0 right-0"
+        style={{ display: promptVisible ? "flex" : "none" }}
+      >
+        <label className="block m-4 w-[5%]" htmlFor="">
+          Name
+        </label>
+        <input
+          className="block w-[80%] m-4 text-black"
+          type="text"
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <label className="block m-4 w-[5%]" htmlFor="">
+          URL
+        </label>
+        <input
+          className="block w-[80%] m-4 text-black"
+          type="text"
+          placeholder="URL"
+          onChange={(e) => setUrl(e.target.value)}
+        />
+        <br />
+        <button
+          className="block m-4 p-5 self-center hover:bg-gray-900"
+          onClick={handleSaveClick}
+        >
+          Save
+        </button>
+        <button
+          className="block m-4 p-4 self-center hover:bg-gray-900"
+          onClick={handleCancelClick}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function QuickLink({
   title,
@@ -68,40 +148,14 @@ function QuickLink({
           delete
         </button>
       </div>
-      <img src={icon} onClick={onClick} className="h-8 w-8 bg-cover" />
+      <img src={icon} className="h-8 w-8 bg-cover" />
       <span className="text-sm text-center">{title}</span>
     </button>
   );
 }
 
-// @ts-ignore
-function QuickLinks({ links }: { links?: QuickLinkType[] }) {
-  const [input1, setInput1] = useState("");
-  const [input2, setInput2] = useState("");
-  const [, setSavedInput1] = useState("");
-  const [, setSavedInput2] = useState("");
-  const [promptVisible, setPromptVisible] = useState(false);
-
-  const handleAddButtonClick = (event: any) => {
-    event.stopPropagation();
-    setPromptVisible(!promptVisible);
-  };
-
-  const handleSaveClick = (event: any) => {
-    event.stopPropagation();
-    setSavedInput1(input1);
-    setSavedInput2(input2);
-    setInput1("");
-    setInput2("");
-    event.target.closest(".editPrompt").style.display = "none";
-  };
-
-  const handleCancelClick = (event: any) => {
-    event.stopPropagation();
-    setInput1("");
-    setInput2("");
-    event.target.closest(".editPrompt").style.display = "none";
-  };
+function QuickLinks() {
+  const links = useContext(linkContext);
 
   return (
     <div
@@ -109,58 +163,14 @@ function QuickLinks({ links }: { links?: QuickLinkType[] }) {
 			text-white overflow-hidden p-4 h-full max-h-60 flex flex-wrap
 		 	items-center justify-start overflow-x-hidden overflow-y-auto relative"
     >
-      {/* {links?.map(link => <QuickLink link={link} />)} */}
-      {Array.from({ length: 8 }).map((_, i) => (
+      {links?.links.map((val) => (
         <QuickLink
-          title={`Link ${i + 1}`}
-          icon="https://cdn-icons-png.flaticon.com/512/7471/7471685.png"
-          onClick={() => console.log("add link")}
+          title={`${val.title}`}
+          icon={`${val.icon}`}
+          onClick={() => window.open(val.url)}
         />
       ))}
-      <button
-        className="hover:bg-black/10 w-16 h-16 flex content-center justify-center rounded relative"
-        onClick={handleAddButtonClick}
-      >
-        <span className="text-5xl">+</span>
-      </button>
-      <div
-        className="editPrompt absolute w-full h-full flex flex-wrap items-center content-center rounded bg-gray-700 top-0 right-0"
-        style={{ display: promptVisible ? "flex" : "none" }}
-      >
-        <label className="block m-4 w-[5%]" htmlFor="">
-          Name
-        </label>
-        <input
-          className="block w-[80%] m-4"
-          type="text"
-          placeholder="Name"
-          value={input1}
-          onChange={(e) => setInput1(e.target.value)} autoFocus
-        />
-        <label className="block m-4 w-[5%]" htmlFor="">
-          URL
-        </label>
-        <input
-          className="block w-[80%] m-4"
-          type="text"
-          placeholder="URL"
-          value={input2}
-          onChange={(e) => setInput2(e.target.value)} autoFocus
-        />
-        <br />
-        <button
-          className="block m-4 p-5 self-center hover:bg-gray-900"
-          onClick={handleSaveClick}
-        >
-          Save
-        </button>
-        <button
-          className="block m-4 p-4 self-center hover:bg-gray-900"
-          onClick={handleCancelClick}
-        >
-          Cancel
-        </button>
-      </div>
+      <AddLink />
     </div>
   );
 }
