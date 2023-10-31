@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext } from "react";
-import { linkContext } from "../newtab";
+import { linkContext } from "../NewTab";
 
 function AddLink() {
   const [name, setName] = useState("");

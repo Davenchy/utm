@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import "@/main.css";
-import Clock from "./components/clock";
-import SimpleButton from "./components/simple-button";
-import Background from "./components/background";
-import QuickLinks from "./components/quick-links";
+import Clock from "./components/Clock";
+import SimpleButton from "./components/SimpleButton";
+import Background from "./components/Background";
+import QuickLinks from "./components/QuickLinks";
 import { useState, useEffect, createContext } from "react";
 import { QuickLinkType } from "@/types";
 import { useSettingsScope } from "@/shared/settings-manager";

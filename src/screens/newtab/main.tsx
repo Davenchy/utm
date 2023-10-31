@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import NewTab from "./newtab";
+import NewTab from "./NewTab";
 import SettingsManager from "@/shared/settings-manager";
 import { NewTabSettingsScope } from "@/types";
 
