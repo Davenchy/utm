@@ -5,3 +5,8 @@ export interface QuickLinkType {
 	icon?: string;
 	iconType?: QuickLintIconType;
 }
+
+export interface NewTabSettingsScope {
+	quickLinks: QuickLinkType[];
+	backgroundImage: string;
+}
