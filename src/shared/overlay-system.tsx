@@ -47,8 +47,7 @@ export class OverlayManager extends EventEmitter {
 
 	openRegisteredLayer(id: string) {
 		const node = this._register.get(id);
-		if (!node)
-			throw new Error(`No registered layer with id ${id}`);
+		if (!node) throw new Error(`No registered layer with id ${id}`);
 		this.open(node);
 	}
 }
@@ -68,6 +67,17 @@ export function useOverlayManagerContext(): OverlayManager {
 	return context;
 }
 
+export function OverlayLayer({ children }: { children: React.ReactNode }) {
+	return (
+		<div
+			className="fixed bg-black/30 w-screen h-screen top-0 left-0
+			    overflow-hidden flex justify-center items-center"
+		>
+			{children}
+		</div>
+	);
+}
+
 function OverlayGUI({ manager }: { manager: OverlayManager }) {
 	const [stack, setStack] = useState<React.ReactNode[]>([]);
 
@@ -84,20 +94,18 @@ function OverlayGUI({ manager }: { manager: OverlayManager }) {
 	return (
 		<>
 			{stack.map(node => (
-				<div
-					className="fixed bg-black/30 w-screen h-screen top-0 left-0
-			    overflow-hidden"
-				>
-					{node}
-				</div>
+				<OverlayLayer>{node}</OverlayLayer>
 			))}
 		</>
 	);
 }
 
-export function OverlayProvider({ children, layers }: {
-	children: React.ReactNode,
-	layers?: Record<string, React.ReactNode>
+export function OverlayProvider({
+	children,
+	layers
+}: {
+	children: React.ReactNode;
+	layers?: Record<string, React.ReactNode>;
 }) {
 	const manager = new OverlayManager();
 	for (const [id, node] of Object.entries(layers || {}))
@@ -111,8 +119,12 @@ export function OverlayProvider({ children, layers }: {
 	);
 }
 
-export function OpenOverlay({ label, node: element }: {
-	label: string, node: React.ReactNode
+export function OpenOverlay({
+	label,
+	node: element
+}: {
+	label: string;
+	node: React.ReactNode;
 }) {
 	const manager = useOverlayManagerContext();
 
@@ -121,7 +133,10 @@ export function OpenOverlay({ label, node: element }: {
 	return <button onClick={onOpen}>{label}</button>;
 }
 
-export function OpenRegisteredOverlay({ label, id }: {
+export function OpenRegisteredOverlay({
+	label,
+	id
+}: {
 	label: string;
 	id: string;
 }) {
