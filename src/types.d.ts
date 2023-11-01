@@ -1,12 +1,11 @@
-export type QuickLintIconType = "base64" | "url";
-export interface QuickLinkType {
+export interface IQuickLink {
+	id: string;
 	title: string;
 	url: string;
 	icon?: string;
-	iconType?: QuickLintIconType;
 }
 
-export interface NewTabSettingsScope {
-	quickLinks: QuickLinkType[];
+export interface INewTabSettingsScope {
+	quickLinks: IQuickLink[];
 	backgroundImage: string;
 }

@@ -6,18 +6,16 @@ import SimpleButton from "./components/SimpleButton";
 import Background from "./components/Background";
 import QuickLinks from "./components/QuickLinks";
 import { useState, useEffect, createContext } from "react";
-import { QuickLinkType } from "@/types";
-import { useSettingsScope } from "@/shared/settings-manager";
-import { NewTabSettingsScope } from "@/types";
 
 export const linkContext = createContext<{
 	links: QuickLinkType[];
 	setLinks: (newState: QuickLinkType[]) => void;
 } | null>(null);
 
+import { useNewTabSettingsScope } from "./settings-scopes";
 
 function BackgroundSettings() {
-	const scope = useSettingsScope<NewTabSettingsScope>("new-tab");
+	const scope = useNewTabSettingsScope();
 
 	return (
 		<input
