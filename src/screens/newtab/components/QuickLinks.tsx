@@ -1,79 +1,106 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext } from "react";
-import { linkContext } from "../NewTab";
+import { useState } from "react";
+import { useNewTabSettingsScope } from "../settings-scopes";
+import { useOverlayManagerContext } from "@/shared/overlay-system";
+import { IQuickLink } from "@/types";
+import { v4 as UUID_V4 } from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-function AddLink() {
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
-  const [promptVisible, setPromptVisible] = useState(false);
-  const links = useContext(linkContext);
+function QuickLinkForm({ link }: { link?: IQuickLink }) {
+  const scope = useNewTabSettingsScope();
+  const overlayManager = useOverlayManagerContext();
+  const [title, setTitle] = useState(link?.title || "");
+  const [url, setUrl] = useState(link?.url || "");
+  const [icon, setIcon] = useState(link?.icon || "");
 
-  const handleAddButtonClick = (event: any) => {
-    event.stopPropagation();
-    setPromptVisible(!promptVisible);
+  const close = () => overlayManager.close();
+  const getIconUrl = (): string => {
+    if (icon.length > 7) return icon;
+    try {
+      const urlObj = new URL(url);
+      urlObj.pathname = "/favicon.ico";
+      return urlObj.href;
+    } catch {
+      return "/icons/link.png";
+    }
   };
 
-  const handleSaveClick = (event: any) => {
-    event.stopPropagation();
-    event.target.closest(".addPrompt").style.display = "none";
-    const icoLink = new URL(url);
-    icoLink.pathname = "/favicon.ico";
-    const newl = links?.links;
-    newl?.push({ title: `${name}`, url: `${url}`, icon: `${icoLink}` });
-    links?.setLinks(newl!);
-    setName("");
-    setUrl("");
-    localStorage.setItem("QuickLinks", JSON.stringify(links?.links));
-  };
-
-  const handleCancelClick = (event: any) => {
-    event.stopPropagation();
-    setName("");
-    setUrl("");
-    event.target.closest(".addPrompt").style.display = "none";
+  const save = () => {
+    const newQuickLink: IQuickLink = {
+      id: UUID_V4(),
+      title,
+      url,
+      icon: getIconUrl()
+    };
+    if (link)
+      scope.quickLinks = scope.quickLinks.map(l =>
+        l.id === link.id
+          ? newQuickLink
+          : l);
+    else
+      scope.quickLinks = [...scope.quickLinks, newQuickLink];
+    close();
   };
 
   return (
-    <div>
-      <button
-        className="hover:bg-black/10 w-16 h-16 flex content-center justify-center rounded relative"
-        onClick={handleAddButtonClick}
-      >
-        <span className="text-5xl">+</span>
-      </button>
-      <div
-        className="addPrompt absolute w-full h-full flex flex-wrap items-center content-center rounded bg-gray-700 top-0 right-0"
-        style={{ display: promptVisible ? "flex" : "none" }}
-      >
-        <label className="block m-4 w-[5%]" htmlFor="">
-          Name
-        </label>
+    <div
+      className="w-1/2 flex flex-col bg-black/60 backdrop-blur p-4 rounded
+      text-white"
+    >
+      <h1 className="text-xl font-bold text-center m-4">
+        {link ? 'Edit' : 'Add'} Quick Link
+      </h1>
+      <div className="self-center w-12 h-12 flex place-content-center">
+        <img alt="icon not found" src={getIconUrl()} />
+      </div>
+      <label className="flex flex-col gap-y-2 mb-4">
+        Title
         <input
-          className="block w-[80%] m-4 text-black"
           type="text"
-          placeholder="Name"
-          onChange={(e) => setName(e.target.value)}
+          className="text-white rounded px-2 py-1 bg-black/40 backdrop-blur
+          outline-none hover:bg-black/80 focus:bg-black/60 focus:shadow
+          focus:shadow-black"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          autoFocus
         />
-        <label className="block m-4 w-[5%]" htmlFor="">
-          URL
-        </label>
+      </label>
+      <label className="flex flex-col gap-y-2 mb-4">
+        URL
         <input
-          className="block w-[80%] m-4 text-black"
-          type="text"
-          placeholder="URL"
-          onChange={(e) => setUrl(e.target.value)}
+          type="url"
+          className="text-white rounded px-2 py-1 bg-black/40 backdrop-blur
+          outline-none hover:bg-black/80 focus:bg-black/60 focus:shadow
+          focus:shadow-black"
+          value={url}
+          onChange={e => setUrl(e.target.value)}
         />
-        <br />
+      </label>
+      <label className="flex flex-col gap-y-2 mb-4">
+        Icon URL
+        <input
+          type="url"
+          className="text-white rounded px-2 py-1 bg-black/40 backdrop-blur
+          outline-none hover:bg-black/80 focus:bg-black/60 focus:shadow
+          focus:shadow-white/20"
+          placeholder="optional"
+          value={icon}
+          onChange={e => setIcon(e.target.value)}
+        />
+      </label>
+      <div className="flex flex-row-reverse gap-x-2 mt-4">
         <button
-          className="block m-4 p-5 self-center hover:bg-gray-900"
-          onClick={handleSaveClick}
+          className="px-2 py-1 w-fit bg-green-500 text-white font-bold rounded
+          hover:bg-green-600 focus:bg-green-700 outline-none"
+          onClick={save}
         >
-          Save
+          {link ? 'Save' : 'Add'}
         </button>
         <button
-          className="block m-4 p-4 self-center hover:bg-gray-900"
-          onClick={handleCancelClick}
+          className="px-2 py-1 w-fit text-red-500 font-bold
+          rounded outline-none hover:bg-red-600 hover:text-white
+          focus:bg-red-700 focus:text-white"
+          onClick={close}
         >
           Cancel
         </button>
@@ -82,93 +109,78 @@ function AddLink() {
   );
 }
 
-function QuickLink({
-  title,
-  icon,
-  onClick,
-}: {
-  title: string;
-  icon: string;
-  onClick: () => void;
-}) {
-  const [optionsVisible, setOptionsVisible] = useState(false);
+function AddLink() {
+  const manager = useOverlayManagerContext();
 
-  const handleOptionsButtonClick = (event: any) => {
-    event.stopPropagation();
-    setOptionsVisible(!optionsVisible);
+  return (
+    <div>
+      <button
+        className="bg-black/20 hover:bg-black/40 w-20 h-20 flex rounded-full
+        place-items-center place-content-center m-2"
+        onClick={() => manager.open(<QuickLinkForm />)}
+      >
+        <FontAwesomeIcon icon={faPlus} size="2x" />
+      </button>
+    </div>
+  );
+}
+
+function QuickLink({ link }: { link: IQuickLink }) {
+  const manager = useOverlayManagerContext();
+  const scope = useNewTabSettingsScope();
+
+  const open = () => window.open(link.url, "_blank");
+  const remove = () => {
+    scope.quickLinks = scope.quickLinks.filter(l => l.id !== link.id);
   };
-
-  const handleOutsideClick = (event: any) => {
-    if (event.target !== event.currentTarget) {
-      setOptionsVisible(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
-
-  const handleOptionsClick = (event: any) => {
-    event.stopPropagation();
-    event.preventDefault();
-    event.target.closest(".options").style.display = "none";
-  };
-
-  const handleDeleteClick = (event: any) => {
-    event.stopPropagation();
-    event.preventDefault();
-    event.target.closest(".group").remove();
+  const edit = () => {
+    manager.open(<QuickLinkForm link={link} />);
   };
 
   return (
-    <button
-      onClick={onClick}
-      className="group hover:bg-black/10 w-16 h-16 overflow-hidden p-2 m-2
-			flex flex-col place-items-center justify-around rounded relative"
-    >
+    <div className="group w-20 h-20 overflow-hidden relative m-2">
       <button
-        className="optionsButton hover:bg-black/50 p-1 absolute top-[-7px] right-[0px] hidden group-hover:block"
-        onClick={handleOptionsButtonClick}
+        className="hidden hover:bg-black/50 text-white w-6 h-6 rounded-full
+        cursor-pointer justify-center items-center bg-black/20 absolute
+        group-hover:flex"
+        onClick={edit}
       >
-        ...
+        <FontAwesomeIcon icon={faPenToSquare} size="xs" />
       </button>
-      <div
-        className="options absolute bg-gray-700 flex flex-wrap justify-evenly h-auto w-3/4 top-[0] right-[0] hidden"
-        onClick={handleOptionsClick}
-        style={{ display: optionsVisible ? "block" : "none" }}
+      <button
+        className="hidden hover:bg-black/50 text-white w-6 h-6 rounded-full
+        cursor-pointer justify-center items-center bg-black/20 absolute
+        bottom-0 right-0 group-hover:flex"
+        onClick={remove}
       >
-        <button className="p-1 hover:bg-gray-900 w-full">edit</button>
-        <button
-          className="p-1 hover:bg-gray-900 w-full"
-          onClick={handleDeleteClick}
-        >
-          delete
-        </button>
-      </div>
-      <img src={icon} className="h-8 w-8 bg-cover" />
-      <span className="text-sm text-center">{title}</span>
-    </button>
+        <FontAwesomeIcon icon={faTrash} size="xs" />
+      </button>
+      <button
+        className="w-full h-full flex flex-col place-items-center bg-black/20
+        place-content-center cursor-pointer rounded-full hover:bg-black/40"
+        onClick={open}
+      >
+        <img
+          className="h-8 w-8"
+          src={link.icon}
+          onError={(e: any) => (e.target.src = "/icons/link.png")}
+        />
+        <span className="text-sm text-center">{link.title}</span>
+      </button>
+    </div>
   );
 }
 
 function QuickLinks() {
-  const links = useContext(linkContext);
+  const scope = useNewTabSettingsScope();
 
   return (
     <div
-      className="bg-white/20 rounded-xl shadow shadow-white/50 w-1/2
-			text-white overflow-hidden p-4 h-full max-h-60 flex flex-wrap
-		 	items-center justify-start overflow-x-hidden overflow-y-auto relative"
+      className="flex flex-wrap max-w-1/2 max-h-60 overflow-hidden
+      overflow-y-auto"
     >
-      {links?.links.map((val) => (
-        <QuickLink
-          title={`${val.title}`}
-          icon={`${val.icon}`}
-          onClick={() => window.open(val.url)}
-        />
+      {scope.quickLinks.map(quickLink => (
+        <QuickLink key={quickLink.id} link={quickLink} />
       ))}
       <AddLink />
     </div>

@@ -1,17 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-refresh/only-export-components */
 import "@/main.css";
 import Clock from "./components/Clock";
 import SimpleButton from "./components/SimpleButton";
 import Background from "./components/Background";
 import QuickLinks from "./components/QuickLinks";
-import { useState, useEffect, createContext } from "react";
-
-export const linkContext = createContext<{
-	links: QuickLinkType[];
-	setLinks: (newState: QuickLinkType[]) => void;
-} | null>(null);
-
 import { useNewTabSettingsScope } from "./settings-scopes";
 
 function BackgroundSettings() {
@@ -29,20 +20,6 @@ function BackgroundSettings() {
 }
 
 function NewTab() {
-	const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
-	const [links, setLinks] = useState<QuickLinkType[]>([]);
-
-	useEffect(() => {
-		const localss = localStorage.getItem("QuickLinks");
-		if (!localss) {
-			localStorage.setItem("QuickLinks", JSON.stringify(links));
-		}
-		const storage = localStorage.getItem("QuickLinks")
-			? localStorage.getItem("QuickLinks")
-			: "";
-		setLinks(JSON.parse(storage!));
-	}, []);
-
 	return (
 		<div className="w-screen h-screen">
 			<Background />
@@ -51,17 +28,9 @@ function NewTab() {
 				<div></div>
 				<Clock />
 				<BackgroundSettings />
-				{
-					isQuickLinksOpened && <linkContext.Provider value={{ links, setLinks }}>
-						<QuickLinks />
-					</linkContext.Provider>
-				}
+				<QuickLinks />
 				<div className="w-full h-12 px-2 flex justify-between items-center">
-					<div className="space-x-4">
-						<SimpleButton label="Settings" onClick={() => { }} />
-						<SimpleButton label="Quick Links"
-							onClick={() => setIsQuickLinksOpened(s => !s)} />
-					</div>
+					<SimpleButton label="Settings" onClick={() => { }} />
 					<div className="space-x-4">
 						<SimpleButton label="Sessions" onClick={() => { }} />
 						<SimpleButton label="Todo" onClick={() => { }} />
