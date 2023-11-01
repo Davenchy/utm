@@ -20,7 +20,8 @@ function BackgroundSettings() {
 	return (
 		<input
 			type="url"
-			className="text-black bg-white/20 shadow shadow-white/50 p-1 rounded w-1/2"
+			className="text-black bg-white/20 shadow shadow-white/50 p-1
+			rounded w-1/2 outline-none focus:bg-white/30"
 			placeholder="Background Image URL (empty for default)"
 			value={scope.backgroundImage || ""}
 			onChange={(e) => scope.backgroundImage = e.target.value} />
