@@ -44,6 +44,7 @@ export default class SettingsManager extends EventEmitter {
 
 		this._scopes.set(scopeName, scopes[scopeName]);
 		this.emit("loaded:" + scopeName);
+		this.emit("updated:" + scopeName);
 	}
 
 	hasScope(scopeName: string): boolean {
@@ -85,6 +86,12 @@ export default class SettingsManager extends EventEmitter {
 			[scopeName]: this._scopes.get(scopeName)
 		});
 		this.emit("saved:" + scopeName);
+	}
+
+	setScope<T>(scopeName: string, scope: T): void {
+		if (!this.hasScope(scopeName))
+			throw new Error("Scope not found: " + scopeName);
+		this._scopes.set(scopeName, scope);
 	}
 
 	getValue<T, K extends keyof T>(scopeName: string, key: K): T[K] {
