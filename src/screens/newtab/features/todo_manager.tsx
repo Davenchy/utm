@@ -3,24 +3,24 @@ import EventEmitter from "events";
 
 /* types */
 
-export interface TodoItem {
+export interface ITodoItem {
 	id: number;
-	title: string;
+	label: string;
 	done: boolean;
 }
 
-export interface TODORepository {
-	saveTodoItems(todoItems: TodoItem[]): Promise<void>;
-	loadTodoItems(): Promise<TodoItem[]>;
+export interface ITodoRepository {
+	saveTodoItems(todoItems: ITodoItem[]): Promise<void>;
+	loadTodoItems(): Promise<ITodoItem[]>;
 }
 
 /* implementation */
 
 export class TodoManager extends EventEmitter {
-	private readonly _repo: TODORepository;
-	private _items: TodoItem[] = [];
+	private readonly _repo: ITodoRepository;
+	private _items: ITodoItem[] = [];
 
-	constructor(repo: TODORepository) {
+	constructor(repo: ITodoRepository) {
 		super();
 		this._repo = repo;
 	}
@@ -35,14 +35,14 @@ export class TodoManager extends EventEmitter {
 		this.emit("load");
 	}
 
-	addItem(title: string): void {
-		const item = { id: Date.now(), title, done: false };
+	addItem(label: string): void {
+		const item = { id: Date.now(), label, done: false };
 		this._items.push(item);
 		this.emit("add", item);
 		this.emit("update", "add", item);
 	}
 
-	setItem(item: TodoItem): boolean {
+	setItem(item: ITodoItem): boolean {
 		const index = this._items.findIndex(i => i.id === item.id);
 		this.emit("set", index === -1 ? null : this._items[index], item);
 		if (index === -1) return false;
@@ -70,21 +70,21 @@ export class TodoManager extends EventEmitter {
 		return true;
 	}
 
-	get items(): TodoItem[] {
+	get items(): ITodoItem[] {
 		return Array.from(this._items);
 	}
 }
 
 /* Repositories */
 
-export class InMemoryTodoRepository implements TODORepository {
-	private _todoItems: TodoItem[] = [];
+export class InMemoryTodoRepository implements ITodoRepository {
+	private _todoItems: ITodoItem[] = [];
 
-	async saveTodoItems(todoItems: TodoItem[]): Promise<void> {
+	async saveTodoItems(todoItems: ITodoItem[]): Promise<void> {
 		this._todoItems = Array.from(todoItems);
 	}
 
-	async loadTodoItems(): Promise<TodoItem[]> {
+	async loadTodoItems(): Promise<ITodoItem[]> {
 		return Array.from(this._todoItems);
 	}
 }
@@ -117,7 +117,7 @@ export const useTodoManagerContext = () => {
 
 export function useTodoManager() {
 	const { manager } = useTodoManagerContext();
-	const [items, setItems] = useState<TodoItem[]>([]);
+	const [items, setItems] = useState<ITodoItem[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	if (!manager) {
@@ -131,13 +131,13 @@ export function useTodoManager() {
 		action().then(() => setIsLoading(false));
 	};
 
-	const addTodo = (title: string) =>
+	const addTodo = (label: string) =>
 		doAction(() => {
-			manager.addItem(title);
+			manager.addItem(label);
 			return manager.save();
 		});
 
-	const setTodo = (item: TodoItem) =>
+	const setTodo = (item: ITodoItem) =>
 		doAction(() => {
 			manager.setItem(item);
 			return manager.save();
