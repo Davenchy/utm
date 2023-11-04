@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
-import { ITodoItem, useTodoManager } from "../features/todo_manager";
+import { useTodoManager } from "../features/todo_manager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -8,17 +8,24 @@ import {
   faClipboardList
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import { ITodoItem } from "@/types";
 
-function DoneComponent({ state, onClick }: {
-  state: boolean, onClick: () => void
+function DoneComponent({
+  state,
+  onClick
+}: {
+  state: boolean;
+  onClick: () => void;
 }) {
-  return (<div onClick={onClick} className="cursor-pointer">
-    {
-      state
-        ? <FontAwesomeIcon icon={faCircleChecked} size="lg" />
-        : <FontAwesomeIcon icon={faCircleCheck} size="lg" />
-    }
-  </div>);
+  return (
+    <div onClick={onClick} className="cursor-pointer">
+      {state ? (
+        <FontAwesomeIcon icon={faCircleChecked} size="lg" />
+      ) : (
+        <FontAwesomeIcon icon={faCircleCheck} size="lg" />
+      )}
+    </div>
+  );
 }
 
 function TodoItem({
@@ -79,12 +86,14 @@ function TodoItem({
             autoFocus
           />
         ) : (
-          <p className={classNames(
-            "cursor-pointer",
-            {
-              "line-through text-gray-400": item.done,
-            }
-          )} onClick={edit}>{item.label}</p>
+          <p
+            className={classNames("cursor-pointer", {
+              "line-through text-gray-400": item.done
+            })}
+            onClick={edit}
+          >
+            {item.label}
+          </p>
         )}
       </div>
       <button className="text-red-500" onClick={() => onRemove(item.id)}>

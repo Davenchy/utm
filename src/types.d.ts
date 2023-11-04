@@ -5,7 +5,14 @@ export interface IQuickLink {
 	icon?: string;
 }
 
+export interface ITodoItem {
+	id: number;
+	label: string;
+	done: boolean;
+}
+
 export interface INewTabSettingsScope {
 	quickLinks: IQuickLink[];
 	backgroundImage: string;
+	todoItems: ITodoItem[];
 }

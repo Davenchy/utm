@@ -1,37 +1,39 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import EventEmitter from "events";
-
-/* types */
-
-export interface ITodoItem {
-	id: number;
-	label: string;
-	done: boolean;
-}
-
-export interface ITodoRepository {
-	saveTodoItems(todoItems: ITodoItem[]): Promise<void>;
-	loadTodoItems(): Promise<ITodoItem[]>;
-}
+import SettingsManager from "@/shared/settings-manager";
+import { INewTabSettingsScope, ITodoItem } from "@/types";
+import { NEW_TAB_SETTINGS_SCOPE } from "../settings-scopes";
 
 /* implementation */
 
 export class TodoManager extends EventEmitter {
-	private readonly _repo: ITodoRepository;
+	private _settingsManager = SettingsManager.getInstance();
 	private _items: ITodoItem[] = [];
 
-	constructor(repo: ITodoRepository) {
+	constructor() {
 		super();
-		this._repo = repo;
+		this._settingsManager.on(
+			"updated:" + NEW_TAB_SETTINGS_SCOPE,
+			this._onUpdate.bind(this));
+	}
+
+	private async _onUpdate() {
+		await this.load();
+		this.emit("update");
 	}
 
 	async save(): Promise<void> {
-		await this._repo.saveTodoItems(this._items);
+		this._settingsManager
+			.setValue<INewTabSettingsScope, keyof INewTabSettingsScope>(
+				NEW_TAB_SETTINGS_SCOPE, "todoItems", this._items);
+		await this._settingsManager.saveScope(NEW_TAB_SETTINGS_SCOPE);
 		this.emit("save");
 	}
 
 	async load(): Promise<void> {
-		this._items = await this._repo.loadTodoItems();
+		this._items = this._settingsManager
+			.getValue<INewTabSettingsScope, keyof INewTabSettingsScope>(
+				NEW_TAB_SETTINGS_SCOPE, "todoItems") as ITodoItem[];
 		this.emit("load");
 	}
 
@@ -73,19 +75,10 @@ export class TodoManager extends EventEmitter {
 	get items(): ITodoItem[] {
 		return Array.from(this._items);
 	}
-}
 
-/* Repositories */
-
-export class InMemoryTodoRepository implements ITodoRepository {
-	private _todoItems: ITodoItem[] = [];
-
-	async saveTodoItems(todoItems: ITodoItem[]): Promise<void> {
-		this._todoItems = Array.from(todoItems);
-	}
-
-	async loadTodoItems(): Promise<ITodoItem[]> {
-		return Array.from(this._todoItems);
+	dispose(): void {
+		this._settingsManager.off("update", this._onUpdate.bind(this));
+		this.removeAllListeners();
 	}
 }
 
