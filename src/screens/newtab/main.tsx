@@ -4,19 +4,23 @@ import NewTab from "./NewTab";
 import SettingsManager from "@/shared/settings-manager";
 import { INewTabSettingsScope } from "@/types";
 import { OverlayProvider } from "@/shared/overlay-system";
+import { InMemoryTodoRepository, TodoManager, TodoManagerProvider } from "./features/todo_manager";
 
 const rootEl = document.getElementById("root");
-
-const manager = SettingsManager.getInstance();
-manager.addScope<INewTabSettingsScope>("new-tab", {
+const settingsManager = SettingsManager.getInstance();
+settingsManager.addScope<INewTabSettingsScope>("new-tab", {
 	quickLinks: [],
 	backgroundImage: "",
-})
+});
+const todoRepo = new InMemoryTodoRepository();
+const todoManager = new TodoManager(todoRepo);
 
 ReactDOM.createRoot(rootEl!).render(
 	<React.StrictMode>
-		<OverlayProvider>
-			<NewTab />
-		</OverlayProvider>
+		<TodoManagerProvider manager={todoManager}>
+			<OverlayProvider>
+				<NewTab />
+			</OverlayProvider>
+		</TodoManagerProvider>
 	</React.StrictMode>
 );
