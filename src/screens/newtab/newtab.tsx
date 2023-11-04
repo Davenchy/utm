@@ -5,14 +5,11 @@ import QuickLinks from "./components/quick-links";
 import SimpleButton from "./components/simple_button";
 import TodoSection from "./components/todo_section";
 import { useState } from "react";
+import classNames from "classnames";
 
 function NewTab() {
   const [isQuickLinksOpened, setIsQuickLinksOpened] = useState<boolean>(false);
-  const [todoListVisible, setTodoListVisible] = useState(true);
-
-  const handleTodoButtonClick = () => {
-    setTodoListVisible(!todoListVisible);
-  };
+  const [todoListVisible, setTodoListVisible] = useState(false);
 
   return (
     <div className="w-screen h-screen">
@@ -24,7 +21,12 @@ function NewTab() {
         <div></div>
         <Clock />
         {isQuickLinksOpened && <QuickLinks />}
-        <div className="w-96 h-3/4 absolute right-0 bottom-12">
+        <div className={classNames(
+          "w-96 h-3/4 absolute right-0 bottom-12",
+          {
+            "hidden": !todoListVisible
+          }
+        )}>
           <TodoSection />
         </div>
         <div className="w-full h-12 px-2 flex justify-between items-center">
@@ -37,7 +39,9 @@ function NewTab() {
           </div>
           <div className="space-x-4">
             <SimpleButton label="Sessions" onClick={() => { }} />
-            <SimpleButton label="Todo" onClick={handleTodoButtonClick} />
+            <SimpleButton label="Todo" onClick={
+              () => setTodoListVisible((s) => !s)
+            } />
           </div>
         </div>
       </div>
