@@ -13,6 +13,7 @@ import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { ITodoItem } from "@/types";
 import { Button } from "./Buttons";
 import { Container, Header, Title } from "./QuickLayout";
+import InputBox from "./InputBox";
 
 function DoneComponent({
   state,
@@ -73,15 +74,14 @@ function TodoItem({
       <DoneComponent state={item.done} onClick={() => onToggle(item.id)} />
       <div className="grow">
         {editing ? (
-          <input
-            className="bg-black/70 p-2 rounded w-full outline-none
-              hover:bg-black/80 focus:bg-black/80 focus:shadow
-              focus:shadow-white/30"
+          <InputBox
             type="text"
+            theme="dark"
             value={label}
-            onChange={e => setLabel(e.target.value)}
-            placeholder="hint: Leave empty to remove"
+            onChange={value => setLabel(value)}
+            placeholder="HINT: Leave empty to remove"
             autoFocus
+            fill
           />
         ) : (
           <p
@@ -112,7 +112,7 @@ function AddTodoItem({
     if (!label.length) return;
     onAddRequest(label);
     setLabel("");
-  }
+  };
 
   const submitTodoItem = (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,14 +121,13 @@ function AddTodoItem({
 
   return (
     <form className="flex space-x-2" onSubmit={submitTodoItem}>
-      <input
-        className="bg-black/70 p-2 rounded w-full outline-none
-        hover:bg-black/80 focus:bg-black/80 focus:shadow focus:shadow-white/30"
+      <InputBox
         type="text"
         value={label}
-        onChange={e => setLabel(e.target.value)}
+        onChange={value => setLabel(value)}
         placeholder="What do you want to do next?"
         autoFocus
+        fill
       />
       <Button style="primary" type="submit" onClick={add}>
         <FontAwesomeIcon icon={faPlus} size="lg" />

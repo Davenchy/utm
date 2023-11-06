@@ -4,9 +4,14 @@ import { useOverlayManagerContext } from "@/shared/overlay-system";
 import { IQuickLink } from "@/types";
 import { v4 as UUID_V4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faTrash,
+  faPlus
+} from "@fortawesome/free-solid-svg-icons";
 import { Button, CircleButton } from "./Buttons";
 import useHotkeys from "@/shared/hotkeys";
+import InputBox from "./InputBox";
 
 function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const scope = useNewTabSettingsScope();
@@ -50,11 +55,9 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
     };
     if (link)
       scope.quickLinks = scope.quickLinks.map(l =>
-        l.id === link.id
-          ? newQuickLink
-          : l);
-    else
-      scope.quickLinks = [...scope.quickLinks, newQuickLink];
+        l.id === link.id ? newQuickLink : l
+      );
+    else scope.quickLinks = [...scope.quickLinks, newQuickLink];
     close();
   };
 
@@ -64,44 +67,38 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
       text-white"
     >
       <h1 className="text-xl font-bold text-center m-4">
-        {link ? 'Edit' : 'Add'} Quick Link
+        {link ? "Edit" : "Add"} Quick Link
       </h1>
       <div className="self-center w-12 h-12 flex place-content-center">
         <img alt="icon not found" src={getIconUrl()} />
       </div>
       <label className="flex flex-col gap-y-2 mb-4">
         Title
-        <input
+        <InputBox
           type="text"
-          className="text-white rounded px-2 py-1 bg-black/40 backdrop-blur
-          outline-none hover:bg-black/80 focus:bg-black/60 focus:shadow
-          focus:shadow-black"
+          theme="dark"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={title => setTitle(title)}
           autoFocus
         />
       </label>
       <label className="flex flex-col gap-y-2 mb-4">
         URL
-        <input
+        <InputBox
           type="url"
-          className="text-white rounded px-2 py-1 bg-black/40 backdrop-blur
-          outline-none hover:bg-black/80 focus:bg-black/60 focus:shadow
-          focus:shadow-black"
+          theme="dark"
           value={url}
-          onChange={e => setUrl(e.target.value)}
+          onChange={url => setUrl(url)}
         />
       </label>
       <label className="flex flex-col gap-y-2 mb-4">
         Icon URL
-        <input
+        <InputBox
           type="url"
-          className="text-white rounded px-2 py-1 bg-black/40 backdrop-blur
-          outline-none hover:bg-black/80 focus:bg-black/60 focus:shadow
-          focus:shadow-white/20"
+          theme="dark"
           placeholder="optional"
           value={icon}
-          onChange={e => setIcon(e.target.value)}
+          onChange={url => setIcon(url)}
         />
       </label>
       <div className="flex flex-row-reverse gap-x-2 mt-4">
