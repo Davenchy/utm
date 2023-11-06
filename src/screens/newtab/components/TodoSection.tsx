@@ -12,6 +12,7 @@ import {
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { ITodoItem } from "@/types";
 import { Button } from "./Buttons";
+import { Container, Header, Title } from "./QuickLayout";
 
 function DoneComponent({
   state,
@@ -45,11 +46,14 @@ function TodoItem({
   const [editing, setEditing] = useState(false);
   const [label, setLabel] = useState(item.label);
 
-  useHotkeys((e) => {
-    if (!editing) return;
-    if (e.key === "Escape") setEditing(false);
-    if (e.key === "Enter") save();
-  }, [editing, label]);
+  useHotkeys(
+    e => {
+      if (!editing) return;
+      if (e.key === "Escape") setEditing(false);
+      if (e.key === "Enter") save();
+    },
+    [editing, label]
+  );
 
   const edit = () => {
     setLabel(item.label);
@@ -138,11 +142,11 @@ function TodoSection() {
   const { items, addTodo, removeTodo, toggleTodo, setTodo } = useTodoManager();
 
   return (
-    <div className="w-full h-full bg-black/50 flex flex-col pb-2">
-      <div className="bg-black/80 py-2 flex justify-center items-center space-x-2">
+    <Container itemsAlignment="stretch" fill>
+      <Header>
         <FontAwesomeIcon icon={faClipboardList} size="lg" />
-        <h1 className="text-2xl font-bold text-center">Todo List</h1>
-      </div>
+        <Title label="Todo List" />
+      </Header>
       <ul className="overflow-y-auto flex flex-col p-2 grow">
         {items.map(todo => (
           <TodoItem
@@ -154,10 +158,10 @@ function TodoSection() {
           />
         ))}
       </ul>
-      <div className="px-2">
+      <div className="p-2">
         <AddTodoItem onAddRequest={addTodo} />
       </div>
-    </div>
+    </Container>
   );
 }
 
