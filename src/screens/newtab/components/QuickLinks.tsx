@@ -6,6 +6,7 @@ import { v4 as UUID_V4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Button, CircleButton } from "./Buttons";
+import useHotkeys from "@/shared/hotkeys";
 
 function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const scope = useNewTabSettingsScope();
@@ -13,6 +14,13 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const [title, setTitle] = useState(link?.title || "");
   const [url, setUrl] = useState(link?.url || "");
   const [icon, setIcon] = useState(link?.icon || "");
+
+  useHotkeys((e) => {
+    e.preventDefault();
+
+    if (e.key === "Escape") return close();
+    if (e.key === "s" && e.ctrlKey) return save();
+  }, [overlayManager, title, url, icon]);
 
   const close = () => overlayManager.close();
   const getIconUrl = (): string => {
@@ -90,7 +98,7 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
         />
       </label>
       <div className="flex flex-row-reverse gap-x-2 mt-4">
-        <Button label={link ? 'Save' : 'Add'} style="primary" onClick={save} />
+        <Button label="Save" style="primary" onClick={save} />
         <Button label="Cancel" style="label" onClick={close} />
       </div>
     </div>
