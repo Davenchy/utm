@@ -123,6 +123,7 @@ function AddTodoItem({
     <form className="flex space-x-2" onSubmit={submitTodoItem}>
       <InputBox
         type="text"
+        theme="dark"
         value={label}
         onChange={value => setLabel(value)}
         placeholder="What do you want to do next?"
