@@ -5,6 +5,7 @@ import { IQuickLink } from "@/types";
 import { v4 as UUID_V4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Button, CircleButton } from "./Buttons";
 
 function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const scope = useNewTabSettingsScope();
@@ -89,21 +90,8 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
         />
       </label>
       <div className="flex flex-row-reverse gap-x-2 mt-4">
-        <button
-          className="px-2 py-1 w-fit bg-green-500 text-white font-bold rounded
-          hover:bg-green-600 focus:bg-green-700 outline-none"
-          onClick={save}
-        >
-          {link ? 'Save' : 'Add'}
-        </button>
-        <button
-          className="px-2 py-1 w-fit text-red-500 font-bold
-          rounded outline-none hover:bg-red-600 hover:text-white
-          focus:bg-red-700 focus:text-white"
-          onClick={close}
-        >
-          Cancel
-        </button>
+        <Button label={link ? 'Save' : 'Add'} style="primary" onClick={save} />
+        <Button label="Cancel" style="label" onClick={close} />
       </div>
     </div>
   );
@@ -113,15 +101,12 @@ function AddLink() {
   const manager = useOverlayManagerContext();
 
   return (
-    <div>
-      <button
-        className="bg-black/20 hover:bg-black/40 w-20 h-20 flex rounded-full
-        place-items-center place-content-center m-2"
-        onClick={() => manager.open(<QuickLinkForm />)}
-      >
-        <FontAwesomeIcon icon={faPlus} size="2x" />
-      </button>
-    </div>
+    <CircleButton
+      className="m-2"
+      onClick={() => manager.open(<QuickLinkForm />)}
+      size={20}>
+      <FontAwesomeIcon icon={faPlus} size="2x" />
+    </CircleButton>
   );
 }
 
@@ -139,25 +124,22 @@ function QuickLink({ link }: { link: IQuickLink }) {
 
   return (
     <div className="group w-20 h-20 overflow-hidden relative m-2">
-      <button
-        className="hidden hover:bg-black/50 text-white w-6 h-6 rounded-full
-        cursor-pointer justify-center items-center bg-black/20 absolute
-        group-hover:flex"
+      <CircleButton
+        size={6}
+        className="absolute hidden group-hover:flex"
         onClick={edit}
       >
         <FontAwesomeIcon icon={faPenToSquare} size="xs" />
-      </button>
-      <button
-        className="hidden hover:bg-black/50 text-white w-6 h-6 rounded-full
-        cursor-pointer justify-center items-center bg-black/20 absolute
-        bottom-0 right-0 group-hover:flex"
+      </CircleButton>
+      <CircleButton
+        size={6}
+        className="absolute hidden group-hover:flex right-0 bottom-0"
         onClick={remove}
       >
         <FontAwesomeIcon icon={faTrash} size="xs" />
-      </button>
-      <button
-        className="w-full h-full flex flex-col place-items-center bg-black/20
-        place-content-center cursor-pointer rounded-full hover:bg-black/40"
+      </CircleButton>
+      <CircleButton
+        className="w-full h-full flex-col"
         onClick={open}
       >
         <img
@@ -166,7 +148,7 @@ function QuickLink({ link }: { link: IQuickLink }) {
           onError={(e: any) => (e.target.src = "/icons/link.png")}
         />
         <span className="text-sm text-center">{link.title}</span>
-      </button>
+      </CircleButton>
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import "@/main.css";
 import Clock from "./components/Clock";
-import SimpleButton from "./components/SimpleButton";
 import Background from "./components/Background";
 import QuickLinks from "./components/QuickLinks";
 import { useNewTabSettingsScope } from "./settings-scopes";
 import { useState } from "react";
 import classNames from "classnames";
 import TodoSection from "./components/TodoSection";
+import { Button } from "./components/Buttons";
 
 function BackgroundSettings() {
 	const scope = useNewTabSettingsScope();
@@ -45,11 +45,12 @@ function NewTab() {
 					<TodoSection />
 				</div>
 				<div className="w-full h-12 px-2 flex justify-between items-center">
-					<SimpleButton label="Settings" onClick={() => { }} />
+					<Button label="Settings" style="label" onClick={() => { }} />
 					<div className="space-x-4">
-						<SimpleButton label="Sessions" onClick={() => { }} />
-						<SimpleButton
+						<Button label="Sessions" style="label" onClick={() => { }} />
+						<Button
 							label="Todo"
+							style="label"
 							onClick={() => setIsTodoOpened(s => !s)}
 						/>
 					</div>

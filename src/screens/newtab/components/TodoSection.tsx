@@ -6,10 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
   faCircleCheck as faCircleChecked,
-  faClipboardList
+  faClipboardList,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { ITodoItem } from "@/types";
+import { Button } from "./Buttons";
 
 function DoneComponent({
   state,
@@ -102,11 +104,15 @@ function AddTodoItem({
 }) {
   const [label, setLabel] = useState("");
 
-  const submitTodoItem = (e: React.FormEvent) => {
-    e.preventDefault();
+  const add = () => {
     if (!label.length) return;
     onAddRequest(label);
     setLabel("");
+  }
+
+  const submitTodoItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    add();
   };
 
   return (
@@ -120,13 +126,10 @@ function AddTodoItem({
         placeholder="What do you want to do next?"
         autoFocus
       />
-      <button
-        className="text-black font-bold bg-white/70 w-fit px-2 py-1
-        rounded hover:bg-white/80 active:bg-white/90 focus:bg-white/80"
-        type="submit"
-      >
-        ADD
-      </button>
+      <Button style="primary" type="submit" onClick={add}>
+        <FontAwesomeIcon icon={faPlus} size="lg" />
+        <span>ADD</span>
+      </Button>
     </form>
   );
 }
