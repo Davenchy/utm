@@ -154,3 +154,16 @@ export function CloseOverlay({ label }: { label: string }) {
 
 	return <button onClick={onClose}>{label}</button>;
 }
+
+export function DefineOverlay({
+	id,
+	children
+}: {
+	id: string;
+	children: React.ReactNode;
+}) {
+	const manager = useOverlayManagerContext();
+
+	manager.registerLayer(id, children);
+	return null;
+}
