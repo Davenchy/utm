@@ -110,9 +110,9 @@ function AddLink() {
 
   return (
     <CircleButton
-      className="m-2"
+      className="m-2 w-20 h-20"
       onClick={() => manager.open(<QuickLinkForm />)}
-      size={20}>
+    >
       <FontAwesomeIcon icon={faPlus} size="2x" />
     </CircleButton>
   );
@@ -133,23 +133,18 @@ function QuickLink({ link }: { link: IQuickLink }) {
   return (
     <div className="group w-20 h-20 overflow-hidden relative m-2">
       <CircleButton
-        size={6}
-        className="absolute hidden group-hover:flex"
+        className="absolute hidden group-hover:flex w-6 h-6"
         onClick={edit}
       >
         <FontAwesomeIcon icon={faPenToSquare} size="xs" />
       </CircleButton>
       <CircleButton
-        size={6}
-        className="absolute hidden group-hover:flex right-0 bottom-0"
+        className="absolute hidden group-hover:flex right-0 bottom-0 w-6 h-6"
         onClick={remove}
       >
         <FontAwesomeIcon icon={faTrash} size="xs" />
       </CircleButton>
-      <CircleButton
-        className="w-full h-full flex-col"
-        onClick={open}
-      >
+      <CircleButton className="w-full h-full flex-col" onClick={open}>
         <img
           className="h-8 w-8"
           src={link.icon}

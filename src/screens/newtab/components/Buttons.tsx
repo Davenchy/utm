@@ -48,12 +48,10 @@ export function Button({
 
 export function CircleButton({
 	onClick,
-	size,
 	children,
 	className,
 }: {
 	onClick: () => void;
-	size?: number;
 	children: React.ReactNode;
 	className?: string | undefined;
 }) {
@@ -63,7 +61,7 @@ export function CircleButton({
 				"hover:bg-black/50 text-white rounded-full cursor-pointer bg-black/20\
 				justify-center items-center place-items-center place-content-center\
 				flex",
-				`w-${size || 24} h-${size || 24}`, className)}
+				className)}
 			onClick={onClick}
 		>
 			{children}
