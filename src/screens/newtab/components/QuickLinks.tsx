@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNewTabSettingsScope } from "../settings-scopes";
+import { useNewTabStorageScope } from "../storage-scopes";
 import { useOverlayManagerContext } from "@/shared/overlay-system";
 import { IQuickLink } from "@/types";
 import { v4 as UUID_V4 } from "uuid";
@@ -14,7 +14,7 @@ import useHotkeys from "@/shared/hotkeys";
 import InputBox from "./InputBox";
 
 function QuickLinkForm({ link }: { link?: IQuickLink }) {
-  const scope = useNewTabSettingsScope();
+  const scope = useNewTabStorageScope();
   const overlayManager = useOverlayManagerContext();
   const [title, setTitle] = useState(link?.title || "");
   const [url, setUrl] = useState(link?.url || "");
@@ -119,7 +119,7 @@ function AddLink() {
 
 function QuickLink({ link }: { link: IQuickLink }) {
   const manager = useOverlayManagerContext();
-  const scope = useNewTabSettingsScope();
+  const scope = useNewTabStorageScope();
 
   const open = () => window.open(link.url, "_blank");
   const remove = () => {
@@ -156,7 +156,7 @@ function QuickLink({ link }: { link: IQuickLink }) {
 }
 
 function QuickLinks() {
-  const scope = useNewTabSettingsScope();
+  const scope = useNewTabStorageScope();
 
   return (
     <div

@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import NewTab from "./NewTab";
-import SettingsManager from "@/shared/settings-manager";
-import { INewTabSettingsScope } from "@/types";
+import StorageManager from "@/shared/storage-manager";
+import { INewTabStorageScope } from "@/types";
 import { OverlayProvider } from "@/shared/overlay-system";
 import {
 	TodoManager,
@@ -10,8 +10,8 @@ import {
 } from "./features/todo_manager";
 
 const rootEl = document.getElementById("root");
-const settingsManager = SettingsManager.getInstance();
-settingsManager.addScope<INewTabSettingsScope>("new-tab", {
+const storageManager = StorageManager.getInstance();
+storageManager.addScope<INewTabStorageScope>("new-tab", {
 	quickLinks: [],
 	backgroundImage: "",
 	todoItems: []

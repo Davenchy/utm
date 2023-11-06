@@ -11,7 +11,7 @@ export interface ITodoItem {
 	done: boolean;
 }
 
-export interface INewTabSettingsScope {
+export interface INewTabStorageScope {
 	quickLinks: IQuickLink[];
 	backgroundImage: string;
 	todoItems: ITodoItem[];

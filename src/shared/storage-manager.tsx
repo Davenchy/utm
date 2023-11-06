@@ -1,8 +1,8 @@
 import EventEmitter from "events";
 import { useEffect, useState } from "react";
 
-export default class SettingsManager extends EventEmitter {
-	private static _instance?: SettingsManager;
+export default class StorageManager extends EventEmitter {
+	private static _instance?: StorageManager;
 	private _scopes: Map<string, any> = new Map();
 
 	private constructor() {
@@ -10,8 +10,8 @@ export default class SettingsManager extends EventEmitter {
 		browser.storage.onChanged.addListener(this._onChange.bind(this));
 	}
 
-	static getInstance(): SettingsManager {
-		if (!this._instance) this._instance = new SettingsManager();
+	static getInstance(): StorageManager {
+		if (!this._instance) this._instance = new StorageManager();
 		return this._instance;
 	}
 
@@ -31,7 +31,7 @@ export default class SettingsManager extends EventEmitter {
 	}
 
 	static addScope<T>(scopeName: string, defaultValue: T): Promise<void> {
-		return SettingsManager.getInstance().addScope(scopeName, defaultValue);
+		return StorageManager.getInstance().addScope(scopeName, defaultValue);
 	}
 	async addScope<T>(scopeName: string, defaultValue: T): Promise<void> {
 		if (this._scopes.has(scopeName)) return;
@@ -128,8 +128,8 @@ export default class SettingsManager extends EventEmitter {
 	}
 }
 
-export function useSettingsScope<T>(scopeName: string): T {
-	const manager = SettingsManager.getInstance();
+export function useStorageScope<T>(scopeName: string): T {
+	const manager = StorageManager.getInstance();
 	const [scope, setScope] = useState<T>(manager.getScopeProxy(scopeName));
 
 	const reloadScope = () => setScope(manager.getScopeProxy(scopeName));

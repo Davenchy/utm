@@ -2,14 +2,14 @@ import "@/main.css";
 import Clock from "./components/Clock";
 import Background from "./components/Background";
 import QuickLinks from "./components/QuickLinks";
-import { useNewTabSettingsScope } from "./settings-scopes";
+import { useNewTabStorageScope } from "./storage-scopes";
 import { useState } from "react";
 import classNames from "classnames";
 import TodoSection from "./components/TodoSection";
 import { Button } from "./components/Buttons";
 
 function BackgroundSettings() {
-	const scope = useNewTabSettingsScope();
+	const scope = useNewTabStorageScope();
 
 	return (
 		<input

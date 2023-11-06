@@ -1,20 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import EventEmitter from "events";
-import SettingsManager from "@/shared/settings-manager";
-import { INewTabSettingsScope, ITodoItem } from "@/types";
-import { NEW_TAB_SETTINGS_SCOPE } from "../settings-scopes";
+import StorageManager from "@/shared/storage-manager";
+import { INewTabStorageScope, ITodoItem } from "@/types";
+import { NEW_TAB_STORAGE_SCOPE } from "../storage-scopes";
 
 /* implementation */
 
 export class TodoManager extends EventEmitter {
-	private _settingsManager = SettingsManager.getInstance();
+	private _storageManager = StorageManager.getInstance();
 	private _items: ITodoItem[] = [];
 
 	constructor() {
 		super();
-		this._settingsManager.on(
-			"updated:" + NEW_TAB_SETTINGS_SCOPE,
-			this._onUpdate.bind(this));
+		this._storageManager.on(
+			"updated:" + NEW_TAB_STORAGE_SCOPE,
+			this._onUpdate.bind(this)
+		);
 	}
 
 	private async _onUpdate() {
@@ -23,17 +24,19 @@ export class TodoManager extends EventEmitter {
 	}
 
 	async save(): Promise<void> {
-		this._settingsManager
-			.setValue<INewTabSettingsScope, keyof INewTabSettingsScope>(
-				NEW_TAB_SETTINGS_SCOPE, "todoItems", this._items);
-		await this._settingsManager.saveScope(NEW_TAB_SETTINGS_SCOPE);
+		this._storageManager.setValue<
+			INewTabStorageScope,
+			keyof INewTabStorageScope
+		>(NEW_TAB_STORAGE_SCOPE, "todoItems", this._items);
+		await this._storageManager.saveScope(NEW_TAB_STORAGE_SCOPE);
 		this.emit("save");
 	}
 
 	async load(): Promise<void> {
-		this._items = this._settingsManager
-			.getValue<INewTabSettingsScope, keyof INewTabSettingsScope>(
-				NEW_TAB_SETTINGS_SCOPE, "todoItems") as ITodoItem[];
+		this._items = this._storageManager.getValue<
+			INewTabStorageScope,
+			keyof INewTabStorageScope
+		>(NEW_TAB_STORAGE_SCOPE, "todoItems") as ITodoItem[];
 		this.emit("load");
 	}
 
@@ -77,7 +80,7 @@ export class TodoManager extends EventEmitter {
 	}
 
 	dispose(): void {
-		this._settingsManager.off("update", this._onUpdate.bind(this));
+		this._storageManager.off("update", this._onUpdate.bind(this));
 		this.removeAllListeners();
 	}
 }
@@ -103,7 +106,9 @@ export function TodoManagerProvider({
 export const useTodoManagerContext = () => {
 	const manager = useContext(TodoManagerContext);
 	if (!manager) {
-		throw new Error("useTodoManagerContext must be used within a TodoManagerProvider");
+		throw new Error(
+			"useTodoManagerContext must be used within a TodoManagerProvider"
+		);
 	}
 	return { manager };
 };
@@ -153,10 +158,10 @@ export function useTodoManager() {
 	/* update items state on any manager update */
 	const onManagerUpdate = () => setItems(manager.items);
 	useEffect(() => {
-		manager.on('update', onManagerUpdate);
+		manager.on("update", onManagerUpdate);
 		return () => {
-			manager.off('update', onManagerUpdate);
-		}
+			manager.off("update", onManagerUpdate);
+		};
 	});
 
 	return {

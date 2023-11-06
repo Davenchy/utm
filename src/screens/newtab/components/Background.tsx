@@ -1,9 +1,9 @@
-import { useSettingsScope } from "@/shared/settings-manager";
-import { INewTabSettingsScope } from "@/types";
+import { useStorageScope } from "@/shared/storage-manager";
+import { INewTabStorageScope } from "@/types";
 
 function Background() {
-	const settings = useSettingsScope<INewTabSettingsScope>("new-tab");
-	const bgUrl = settings.backgroundImage || "/background.jpg";
+	const storage = useStorageScope<INewTabStorageScope>("new-tab");
+	const bgUrl = storage.backgroundImage || "/background.jpg";
 
 	return (
 		<div className="top-0 left-0 z-[-1] fixed w-screen h-screen bg-black">
