@@ -15,12 +15,19 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const [url, setUrl] = useState(link?.url || "");
   const [icon, setIcon] = useState(link?.icon || "");
 
-  useHotkeys((e) => {
-    e.preventDefault();
-
-    if (e.key === "Escape") return close();
-    if (e.key === "s" && e.ctrlKey) return save();
-  }, [overlayManager, title, url, icon]);
+  useHotkeys(
+    e => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        return close();
+      }
+      if (e.key === "s" && e.ctrlKey) {
+        e.preventDefault();
+        return save();
+      }
+    },
+    [overlayManager, title, url, icon]
+  );
 
   const close = () => overlayManager.close();
   const getIconUrl = (): string => {
