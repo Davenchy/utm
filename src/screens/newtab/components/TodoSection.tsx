@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import classNames from "classnames";
+import useHotkeys from "@/shared/hotkeys";
 import { useTodoManager } from "../features/todo_manager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -41,14 +42,12 @@ function TodoItem({
 }) {
   const [editing, setEditing] = useState(false);
   const [label, setLabel] = useState(item.label);
-  const handleKeyPress = useCallback(
-    (event: KeyboardEvent) => {
-      if (!editing) return;
-      if (event.key === "Enter") save();
-      if (event.key === "Escape") setEditing(false);
-    },
-    [editing, label]
-  );
+
+  useHotkeys((e) => {
+    if (!editing) return;
+    if (e.key === "Escape") setEditing(false);
+    if (e.key === "Enter") save();
+  }, [editing, label]);
 
   const edit = () => {
     setLabel(item.label);
@@ -62,13 +61,6 @@ function TodoItem({
     if (label.length === 0) onRemove(item.id);
     else onUpdate(item);
   };
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [handleKeyPress]);
 
   return (
     <li className="flex space-x-2 my-2 items-center">
