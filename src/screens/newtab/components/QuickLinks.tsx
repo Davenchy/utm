@@ -20,20 +20,6 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const [url, setUrl] = useState(link?.url || "");
   const [icon, setIcon] = useState(link?.icon || "");
 
-  useHotkeys(
-    e => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        return close();
-      }
-      if (e.key === "s" && e.ctrlKey) {
-        e.preventDefault();
-        return save();
-      }
-    },
-    [overlayManager, title, url, icon]
-  );
-
   const close = () => overlayManager.close();
   const getIconUrl = (): string => {
     if (icon.length > 7) return icon;
@@ -60,6 +46,15 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
     else scope.quickLinks = [...scope.quickLinks, newQuickLink];
     close();
   };
+
+  useHotkeys(e => e.key === "Escape", close, [overlayManager]);
+  useHotkeys(e => e.key === "s" && e.ctrlKey, save, [
+    link,
+    scope,
+    title,
+    url,
+    icon
+  ]);
 
   return (
     <div

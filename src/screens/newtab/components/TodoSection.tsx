@@ -48,13 +48,15 @@ function TodoItem({
   const [label, setLabel] = useState(item.label);
 
   useHotkeys(
-    e => {
-      if (!editing) return;
-      if (e.key === "Escape") setEditing(false);
-      if (e.key === "Enter") save();
-    },
-    [editing, label]
+    e => editing && e.key === "Escape",
+    () => setEditing(false),
+    [editing]
   );
+  useHotkeys(
+    e => editing && e.key === "Enter",
+    () => save(),
+    [editing, label]
+  )
 
   const edit = () => {
     setLabel(item.label);
