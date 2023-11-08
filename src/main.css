@@ -5,6 +5,9 @@
 p.hadeeth-content {
     position: fixed;
     top: 50%;
-    left: 50%;
-    background-color: rgb(128, 128, 131);
+    left: 20%;
+    max-width: 60%;
+    background-color: rgb(202, 202, 205);
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
 }
