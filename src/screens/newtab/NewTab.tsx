@@ -7,6 +7,7 @@ import { useState } from "react";
 import classNames from "classnames";
 import TodoSection from "./components/TodoSection";
 import { Button } from "./components/Buttons";
+import Hadeeth from "./components/Hadeeth";
 
 function BackgroundSettings() {
 	const scope = useNewTabStorageScope();
@@ -35,6 +36,7 @@ function NewTab() {
 			>
 				<div></div>
 				<Clock />
+				<Hadeeth />
 				<BackgroundSettings />
 				<QuickLinks />
 				<div
