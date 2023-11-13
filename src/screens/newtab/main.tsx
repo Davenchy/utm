@@ -10,6 +10,7 @@ import {
 } from "./features/todo_manager";
 
 const rootEl = document.getElementById("root");
+
 const storageManager = StorageManager.getInstance();
 storageManager.addScope<INewTabStorageScope>("new-tab", {
 	quickLinks: [],
