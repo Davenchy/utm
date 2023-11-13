@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Hadeeth from "./Hadeeth";
+import NewTab from "./newtab";
 
 const rootEl = document.getElementById("root");
 
 ReactDOM.createRoot(rootEl!).render(
 		<React.StrictMode>
-			<Hadeeth />
+			<NewTab />
 		</React.StrictMode>
 );
