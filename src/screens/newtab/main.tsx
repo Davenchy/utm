@@ -18,7 +18,8 @@ const openCloseConfig: IOpenCloseConfig = {
   settings: false,
   todo: false,
   quickLinksDialog: false,
-  sessions: false
+  sessions: false,
+  hadith: true,
 };
 
 ReactDOM.createRoot(rootEl!).render(
