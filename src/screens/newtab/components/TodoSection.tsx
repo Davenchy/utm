@@ -1,7 +1,5 @@
 import { useState } from "react";
 import classNames from "classnames";
-import useHotkeys from "@/shared/hotkeys";
-import { useTodoManager } from "../features/todo_manager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -14,6 +12,8 @@ import { ITodoItem } from "@/types";
 import { Button } from "./Buttons";
 import { Container, Header, Title } from "./QuickLayout";
 import InputBox from "./InputBox";
+import useHotKeys from "@/features/HotKeys";
+import useTodoManager from "@/features/TodoManager";
 
 function DoneComponent({
   state,
@@ -40,23 +40,23 @@ function TodoItem({
   onUpdate
 }: {
   item: ITodoItem;
-  onRemove: (id: number) => void;
-  onToggle: (id: number) => void;
+  onRemove: (id: string) => void;
+  onToggle: (id: string) => void;
   onUpdate: (item: ITodoItem) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const [label, setLabel] = useState(item.label);
 
-  useHotkeys(
+  useHotKeys(
     e => editing && e.key === "Escape",
     () => setEditing(false),
     [editing]
   );
-  useHotkeys(
+  useHotKeys(
     e => editing && e.key === "Enter",
     () => save(),
     [editing, label]
-  )
+  );
 
   const edit = () => {
     setLabel(item.label);
@@ -141,7 +141,13 @@ function AddTodoItem({
 }
 
 function TodoSection() {
-  const { items, addTodo, removeTodo, toggleTodo, setTodo } = useTodoManager();
+  const {
+    todoItems,
+    addTodoItem,
+    setTodoItem,
+    toggleTodoItem,
+    removeTodoItem
+  } = useTodoManager();
 
   return (
     <Container itemsAlignment="stretch" fill>
@@ -150,18 +156,18 @@ function TodoSection() {
         <Title label="Todo List" />
       </Header>
       <ul className="overflow-y-auto flex flex-col p-2 grow">
-        {items.map(todo => (
+        {todoItems.map(todo => (
           <TodoItem
             key={todo.id}
             item={todo}
-            onRemove={removeTodo}
-            onToggle={toggleTodo}
-            onUpdate={setTodo}
+            onToggle={toggleTodoItem}
+            onRemove={removeTodoItem}
+            onUpdate={item => setTodoItem(item.id, _ => item)}
           />
         ))}
       </ul>
       <div className="p-2">
-        <AddTodoItem onAddRequest={addTodo} />
+        <AddTodoItem onAddRequest={addTodoItem} />
       </div>
     </Container>
   );
