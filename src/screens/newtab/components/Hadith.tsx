@@ -33,7 +33,6 @@ interface HadithEntity {
 async function fetchHadithAPI(url: string): Promise<HadithEntity> {
     const response = await fetch(url);
     const data: HadithAPIResult = await response.json();
-    console.log(data);
 
     const hadith: string = data.hadiths[0].text;
     const sectionNumber = Object.keys(data.metadata.section)[0];
