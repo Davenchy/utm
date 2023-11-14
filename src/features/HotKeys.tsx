@@ -1,6 +1,6 @@
 import { DependencyList, useCallback, useEffect } from "react";
 
-export default function useHotkeys(
+export default function useHotKeys(
 	detector: (event: KeyboardEvent) => boolean,
 	callback: () => any,
 	dependencies: DependencyList = []
