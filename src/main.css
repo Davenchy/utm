@@ -18,12 +18,14 @@
     max-width: calc(100vw - 280px);
     min-width: 400px;
     overflow: auto;
-    padding: 20px;
+    padding: 1rem;
     position: relative;
     text-align: center;
-    background-color: rgb(92 93 112);
+    background-color: rgb(45, 55, 72, .45);
+    backdrop-filter: blur(.1rem);
     color: #fff;
     font-family: "AmiriQuran-Regular",serif;
+    border-radius: .375rem;
 }
 
 #hadeethDetails {
