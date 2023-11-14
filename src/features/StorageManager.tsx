@@ -29,12 +29,10 @@ export function StorageManagerProvider({
 			state,
 			async save(scopeName, scope) {
 				await browser.storage.local.set({ [scopeName]: scope });
-				console.log("saving", scopeName, scope);
 			},
 			async load() {
 				const results = await browser.storage.local.get(defaultConfig);
 				setState(results as IStorageConfig);
-				console.log("loaded", results);
 				return results as IStorageConfig;
 			},
 			setScope: (key, setter) =>
@@ -46,7 +44,6 @@ export function StorageManagerProvider({
 	const onChanged = (changed: {
 		[key: string]: browser.storage.StorageChange;
 	}) => {
-		console.log("updates", changed);
 		setState(state => {
 			Object.keys(changed)
 				.filter(
