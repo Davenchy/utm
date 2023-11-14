@@ -14,10 +14,10 @@ import { SettingsDialog } from "./components/Settings";
 function NewTab() {
   const todoDialogSystem = useOpenCloseSystem("todoDialog");
   const settingsDialogSystem = useOpenCloseSystem("settings");
-  const sessionsDialogSystem = useOpenCloseSystem("sessions");
+  // const sessionsDialogSystem = useOpenCloseSystem("sessions");
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen overflow-hidden">
       <Background />
       <div
         className="h-full text-white flex flex-col justify-between
@@ -43,20 +43,20 @@ function NewTab() {
           <Button
             label="Settings"
             style="label"
-            onClick={() => {}}
+            onClick={() => { }}
             openCloseSystem={settingsDialogSystem}
           />
           <div className="space-x-4">
-            <Button
-              label="Sessions"
-              style="label"
-              onClick={() => {}}
-              openCloseSystem={sessionsDialogSystem}
-            />
+            {/* <Button */}
+            {/*   label="Sessions" */}
+            {/*   style="label" */}
+            {/*   onClick={() => {}} */}
+            {/*   openCloseSystem={sessionsDialogSystem} */}
+            {/* /> */}
             <Button
               label="Todo"
               style="label"
-              onClick={() => {}}
+              onClick={() => { }}
               openCloseSystem={todoDialogSystem}
             />
           </div>

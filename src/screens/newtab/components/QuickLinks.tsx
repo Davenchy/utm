@@ -55,7 +55,7 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
     <OpenCloseSystem
       systemId="quickLinksDialog"
       className="w-1/2 flex flex-col bg-black/60 backdrop-blur p-4 rounded
-      text-white"
+      text-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
     >
       <h1 className="text-xl font-bold text-center m-4">
         {link ? "Edit" : "Add"} Quick Link
