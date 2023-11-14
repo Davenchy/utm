@@ -4,8 +4,9 @@ function Clock() {
 	const [date, setDate] = useState<Date>(new Date());
 	const m = date.getMinutes();
 	let h = date.getHours();
-	const dp: string = h > 12 ? "PM" : "AM";
+	const dp: string = h >= 12 ? "PM" : "AM";
 	h %= 12;
+	if (!h) h = 12;
 
 	// update clock every second
 	useEffect(() => {
