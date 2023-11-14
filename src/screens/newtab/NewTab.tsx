@@ -1,6 +1,6 @@
 import "@/main.css";
 import Clock from "./components/Clock";
-import Hadeeth from "./components/Hadeeth";
+import Hadith from "./components/Hadith";
 import Background from "./components/Background";
 import { Button } from "./components/Buttons";
 import QuickLinks from "./components/QuickLinks";
@@ -25,7 +25,7 @@ function NewTab() {
       >
         <div></div>
         <Clock />
-        <Hadeeth />
+        <Hadith />
         <QuickLinks />
         <OpenCloseSystem
           systemId="todoDialog"
