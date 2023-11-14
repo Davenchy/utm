@@ -1,3 +1,4 @@
+import { OpenCloseSystem } from "@/features/OpenCloseSystem";
 import { useEffect, useState } from "react";
 
 enum EHadithLanguage {
@@ -48,7 +49,7 @@ function useHadith() {
     const [hadithEnglish, setHadithEnglish] = useState("");
     const [hadithDetails, setHadithDetails] = useState("");
 
-    useEffect(() => {
+    const fetch = () => {
         const { arabicURL, englishURL } = generateRandomHadithURL();
 
         setIsLoading(true);
@@ -59,23 +60,35 @@ function useHadith() {
                 setHadithDetails(englishVersion.details);
             })
             .finally(() => setIsLoading(false));
-    }, []);
+    }
 
-    return { isLoading, hadithArabic, hadithEnglish, hadithDetails };
+    useEffect(() => fetch(), []);
+
+    return { isLoading, hadithArabic, hadithEnglish, hadithDetails, fetch };
 }
 
-export default function HadithSection() {
+export function HadithSection() {
     const { isLoading, hadithArabic, hadithEnglish, hadithDetails } = useHadith();
 
     return !isLoading ? (
-        <div className="bg-black/70 backdrop-blur max-h-[33%] w-10/12 p-2
-            rounded-md space-y-2 flex flex-col place-items-center">
+        <>
             <div className="flex flex-col place-items-center space-y-2 grow
                 overflow-hidden overflow-y-auto">
                 <p className="text-right text-lg">{hadithArabic}</p>
                 <p className="text-md">{hadithEnglish}</p>
             </div>
             <p className="text-center">{hadithDetails}</p>
-        </div>
+        </>
     ) : null;
+}
+
+export default function Hadith() {
+    return (
+        <OpenCloseSystem
+            systemId="hadith"
+            className="bg-black/70 backdrop-blur max-h-[33%] w-10/12 p-2
+            rounded-md space-y-2 flex flex-col place-items-center">
+            <HadithSection />
+        </OpenCloseSystem>
+    );
 }

@@ -35,4 +35,5 @@ export interface IOpenCloseConfig {
   sessions: boolean;
   todoDialog: boolean;
   quickLinksDialog: boolean;
+  hadith: boolean;
 }

@@ -2,37 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#hadeethContent {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin-top: 10px;
-    border-top: 10px;
-}
-
-#hadeethContent__text {
-    font-size: 25px;
-    line-height: 35px;
-    max-height: 50vh;
-    max-width: calc(100vw - 280px);
-    min-width: 400px;
-    overflow: auto;
-    padding: 20px;
-    position: relative;
-    text-align: center;
-    background-color: rgb(92 93 112);
-    color: #fff;
-    font-family: "AmiriQuran-Regular",serif;
-}
-
-#hadeethDetails {
-    -webkit-background-clip: text;
-    background-clip: text;
-    background-color: #fff;
-    color: hsla(0,0%,100%,0);
-}
-
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
