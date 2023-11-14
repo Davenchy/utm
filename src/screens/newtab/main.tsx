@@ -1,30 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import NewTab from "./NewTab";
-import StorageManager from "@/shared/storage-manager";
-import { INewTabStorageScope } from "@/types";
-import { OverlayProvider } from "@/shared/overlay-system";
-import {
-	TodoManager,
-	TodoManagerProvider
-} from "./features/todo_manager";
+import { IOpenCloseConfig, IStorageConfig } from "@/types";
+import { OpenCloseSystemProvider } from "@/features/OpenCloseSystem";
+import { StorageManagerProvider } from "@/features/StorageManager";
 
 const rootEl = document.getElementById("root");
-
-const storageManager = StorageManager.getInstance();
-storageManager.addScope<INewTabStorageScope>("new-tab", {
-	quickLinks: [],
-	backgroundImage: "",
-	todoItems: []
-});
-const todoManager = new TodoManager();
+const storageConfig: IStorageConfig = {
+  todoItems: [],
+  sessions: {},
+  backgroundImage: "",
+  quickLinks: [],
+  activeSession: ""
+};
+const openCloseConfig: IOpenCloseConfig = {
+  todoDialog: false,
+  settings: false,
+  todo: false,
+  quickLinksDialog: false,
+  sessions: false
+};
 
 ReactDOM.createRoot(rootEl!).render(
-	<React.StrictMode>
-		<TodoManagerProvider manager={todoManager}>
-			<OverlayProvider>
-				<NewTab />
-			</OverlayProvider>
-		</TodoManagerProvider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <StorageManagerProvider defaultConfig={storageConfig}>
+      <OpenCloseSystemProvider defaultConfig={openCloseConfig}>
+        <NewTab />
+      </OpenCloseSystemProvider>
+    </StorageManagerProvider>
+  </React.StrictMode>
 );
