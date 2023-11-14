@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNewTabStorageScope } from "../storage-scopes";
-import { useOverlayManagerContext } from "@/shared/overlay-system";
 import { IQuickLink } from "@/types";
 import { v4 as UUID_V4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,17 +8,22 @@ import {
   faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, CircleButton } from "./Buttons";
-import useHotkeys from "@/shared/hotkeys";
 import InputBox from "./InputBox";
 
+import useHotKeys from "@/features/HotKeys";
+import useQuickLinksManager from "@/features/QuickLinksManager";
+import {
+  useOpenCloseSystem,
+  OpenCloseSystem,
+} from "@/features/OpenCloseSystem";
+
 function QuickLinkForm({ link }: { link?: IQuickLink }) {
-  const scope = useNewTabStorageScope();
-  const overlayManager = useOverlayManagerContext();
+  const { close } = useOpenCloseSystem("quickLinksDialog");
+  const { addQuickLink, setQuickLink } = useQuickLinksManager();
   const [title, setTitle] = useState(link?.title || "");
   const [url, setUrl] = useState(link?.url || "");
   const [icon, setIcon] = useState(link?.icon || "");
 
-  const close = () => overlayManager.close();
   const getIconUrl = (): string => {
     if (icon.length > 7) return icon;
     try {
@@ -33,31 +36,24 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   };
 
   const save = () => {
-    const newQuickLink: IQuickLink = {
-      id: UUID_V4(),
+    if (!url) return;
+    const quickLink: IQuickLink = {
+      id: link ? link.id : UUID_V4(),
       title,
       url,
       icon: getIconUrl()
     };
-    if (link)
-      scope.quickLinks = scope.quickLinks.map(l =>
-        l.id === link.id ? newQuickLink : l
-      );
-    else scope.quickLinks = [...scope.quickLinks, newQuickLink];
+    if (link) setQuickLink(quickLink.id, _ => quickLink);
+    else addQuickLink(quickLink);
     close();
   };
 
-  useHotkeys(e => e.key === "Escape", close, [overlayManager]);
-  useHotkeys(e => e.key === "s" && e.ctrlKey, save, [
-    link,
-    scope,
-    title,
-    url,
-    icon
-  ]);
+  useHotKeys(e => e.key === "Escape", close);
+  useHotKeys(e => e.key === "s" && e.ctrlKey, save, [link, title, url, icon]);
 
   return (
-    <div
+    <OpenCloseSystem
+      systemId="quickLinksDialog"
       className="w-1/2 flex flex-col bg-black/60 backdrop-blur p-4 rounded
       text-white"
     >
@@ -100,46 +96,30 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
         <Button label="Save" style="primary" onClick={save} />
         <Button label="Cancel" style="label" onClick={close} />
       </div>
-    </div>
+    </OpenCloseSystem>
   );
 }
 
-function AddLink() {
-  const manager = useOverlayManagerContext();
-
-  return (
-    <CircleButton
-      className="m-2 w-20 h-20"
-      onClick={() => manager.open(<QuickLinkForm />)}
-    >
-      <FontAwesomeIcon icon={faPlus} size="2x" />
-    </CircleButton>
-  );
-}
-
-function QuickLink({ link }: { link: IQuickLink }) {
-  const manager = useOverlayManagerContext();
-  const scope = useNewTabStorageScope();
-
-  const open = () => window.open(link.url, "_blank");
-  const remove = () => {
-    scope.quickLinks = scope.quickLinks.filter(l => l.id !== link.id);
-  };
-  const edit = () => {
-    manager.open(<QuickLinkForm link={link} />);
-  };
-
+function QuickLink({
+  link,
+  onEditClicked,
+  onRemoveClicked
+}: {
+  link: IQuickLink;
+  onEditClicked: () => void;
+  onRemoveClicked: () => void;
+}) {
   return (
     <div className="group w-20 h-20 overflow-hidden relative m-2">
       <CircleButton
         className="absolute hidden group-hover:flex w-6 h-6"
-        onClick={edit}
+        onClick={onEditClicked}
       >
         <FontAwesomeIcon icon={faPenToSquare} size="xs" />
       </CircleButton>
       <CircleButton
         className="absolute hidden group-hover:flex right-0 bottom-0 w-6 h-6"
-        onClick={remove}
+        onClick={onRemoveClicked}
       >
         <FontAwesomeIcon icon={faTrash} size="xs" />
       </CircleButton>
@@ -156,18 +136,35 @@ function QuickLink({ link }: { link: IQuickLink }) {
 }
 
 function QuickLinks() {
-  const scope = useNewTabStorageScope();
+  const { open } = useOpenCloseSystem("quickLinksDialog");
+  const { quickLinks, removeQuickLink } = useQuickLinksManager();
+  const [link, setLink] = useState<IQuickLink | undefined>();
+
+  const openWith = (link: IQuickLink | undefined = undefined) => {
+    setLink(link);
+    open();
+  };
 
   return (
-    <div
-      className="flex flex-wrap max-w-1/2 max-h-60 overflow-hidden
+    <>
+      <QuickLinkForm link={link} />
+      <div
+        className="flex flex-wrap max-w-1/2 max-h-60 overflow-hidden
       overflow-y-auto"
-    >
-      {scope.quickLinks.map(quickLink => (
-        <QuickLink key={quickLink.id} link={quickLink} />
-      ))}
-      <AddLink />
-    </div>
+      >
+        {quickLinks.map(quickLink => (
+          <QuickLink
+            key={quickLink.id}
+            link={quickLink}
+            onEditClicked={() => openWith(quickLink)}
+            onRemoveClicked={() => removeQuickLink(quickLink.id)}
+          />
+        ))}
+        <CircleButton className="m-2 w-20 h-20" onClick={() => openWith()}>
+          <FontAwesomeIcon icon={faPlus} size="2x" />
+        </CircleButton>
+      </div>
+    </>
   );
 }
 
