@@ -1,9 +1,8 @@
-import { useStorageScope } from "@/shared/storage-manager";
-import { INewTabStorageScope } from "@/types";
+import { useStorageScope } from "@/features/StorageManager";
 
 function Background() {
-	const storage = useStorageScope<INewTabStorageScope>("new-tab");
-	const bgUrl = storage.backgroundImage || "/background.jpg";
+	const [image, _] = useStorageScope("backgroundImage");
+	const bgUrl = image || "/background.jpg";
 
 	return (
 		<div className="top-0 left-0 z-[-1] fixed w-screen h-screen bg-black">
