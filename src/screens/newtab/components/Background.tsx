@@ -2,7 +2,7 @@ import { useStorageScope } from "@/features/StorageManager";
 
 function Background() {
 	const [image, _] = useStorageScope("backgroundImage");
-	const bgUrl = image || "/background.jpg";
+	const bgUrl = image || "/background2.jpg";
 
 	return (
 		<div className="top-0 left-0 z-[-1] fixed w-screen h-screen bg-black">
