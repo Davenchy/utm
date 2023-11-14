@@ -109,6 +109,13 @@ function QuickLink({
   onEditClicked: () => void;
   onRemoveClicked: () => void;
 }) {
+  const open = () =>
+    browser.tabs.getCurrent()
+      .then((tab) => {
+        if (!tab || !tab.id) return;
+        browser.tabs.update(tab.id, { url: link.url });
+      });
+
   return (
     <div className="group w-20 h-20 overflow-hidden relative m-2">
       <CircleButton
