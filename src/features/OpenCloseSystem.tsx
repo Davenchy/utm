@@ -1,4 +1,5 @@
 import { IOpenCloseConfig } from "@/types";
+import cls from "classnames";
 import { createContext, useContext, useState } from "react";
 
 export type SystemID = keyof IOpenCloseConfig;
@@ -51,16 +52,18 @@ export function OpenCloseSystem({
 	systemId,
 	style,
 	className,
-	children
+	children,
+	floating,
 }: {
 	systemId: SystemID;
 	style?: React.CSSProperties;
 	className?: string;
 	children: React.ReactNode;
+	floating?: boolean;
 }) {
 	const { active } = useOpenCloseSystem(systemId);
 	return active ? (
-		<div style={style} className={className}>
+		<div style={style} className={cls(className, { "fixed z-50": floating })}>
 			{children}
 		</div>
 	) : null;
