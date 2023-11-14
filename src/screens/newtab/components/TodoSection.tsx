@@ -87,7 +87,7 @@ function TodoItem({
           />
         ) : (
           <p
-            className={classNames("cursor-pointer", {
+            className={classNames("cursor-pointer font-bold", {
               "line-through text-gray-400": item.done
             })}
             onClick={edit}
@@ -150,7 +150,7 @@ function TodoSection() {
   } = useTodoManager();
 
   return (
-    <Container itemsAlignment="stretch" fill>
+    <Container itemsAlignment="stretch" className="bg-black/80" fill>
       <Header>
         <FontAwesomeIcon icon={faClipboardList} size="lg" />
         <Title label="Todo List" />

@@ -52,8 +52,7 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   useHotKeys(e => e.key === "s" && e.ctrlKey, save, [link, title, url, icon]);
 
   return (
-    <OpenCloseSystem
-      systemId="quickLinksDialog"
+    <div
       className="w-1/2 flex flex-col bg-black/60 backdrop-blur p-4 rounded
       text-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
     >
@@ -96,7 +95,7 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
         <Button label="Save" style="primary" onClick={save} />
         <Button label="Cancel" style="label" onClick={close} />
       </div>
-    </OpenCloseSystem>
+    </div>
   );
 }
 
@@ -154,7 +153,9 @@ function QuickLinks() {
 
   return (
     <>
-      <QuickLinkForm link={link} />
+      <OpenCloseSystem systemId="quickLinksDialog" floating>
+        <QuickLinkForm link={link} />
+      </OpenCloseSystem>
       <div
         className="flex flex-wrap max-w-1/2 max-h-60 overflow-hidden
       overflow-y-auto"
