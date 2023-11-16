@@ -2,6 +2,8 @@ import { IQuickLink } from "@/types";
 import { useStorageScope } from "./StorageManager";
 
 export type QuickLinkSetter = (quickLink: IQuickLink) => IQuickLink;
+
+// This component is used to manage the quick links.
 export default function useQuickLinksManager() {
 	const [quickLinks, setQuickLinks] = useStorageScope("quickLinks");
 

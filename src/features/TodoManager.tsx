@@ -4,6 +4,7 @@ import { v4 as UUID_V4 } from "uuid";
 
 export type TodoItemSetter = (todoItem: ITodoItem) => ITodoItem;
 
+// This function is used to manage the todo items.
 export default function useTodoManager() {
 	const [todoItems, setTodoItems] = useStorageScope("todoItems");
 
