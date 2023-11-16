@@ -1,8 +1,20 @@
-# Universal Tab Manager - UTM
+# Universal Tabs Manager - UTM
 
-A simple, clean and powerful tab manager for your browser.
+A simple, clean and powerful tabs manager for your browser.
 
 ![The UTM extension NewTab page on Firefox](/public/screenforreadme.jpg)
+
+## The Problem
+
+As tech lovers and future software pros, we're into daily searches and online browsing. But, things can get a bit much when we end up with tons of tabs and tasks, causing our computer to slow down or even freeze.
+
+Suddenly, our tab bar gets messy, and it's easy to get lost while jumping around. We end up with a bunch of tabs that don't even relate to what we're working on.
+
+## Our Solution
+
+Imagine having the ability to create distinct sessions for your tabs. Picture being able to group tabs within each session and set rules like snoozing tabs after a while or hiding entire groups to keep your tab bar clean and organized.
+
+Envision the convenience of syncing your configured sessions and groups across various browsers and operating systems. And that's where our project, UTM (Universal Tabs Manager), comes into play—born out of the need for a solution to streamline and organize your browsing experience.
 
 ## Key Features
 
