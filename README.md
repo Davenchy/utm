@@ -1,47 +1,114 @@
-# Universal Tabs Manager - UTM
+# Universal Tab Manager - UTM
 
-- A simple, clean and powerful tabs manager
+A simple, clean and powerful tab manager for your browser.
 
-## Development and Debugging
+![The UTM extension NewTab page on Firefox](/public/screenforreadme.jpg)
 
-- Download dependencies and start the server
+## Key Features
+
+### <img src="public/icons/icon.png" width=20 height=20> Managing New Tabs
+
+ **New Tab Page** - UTM replaces your new tab page with a beautiful and customizable page that helps you stay focused and productive:
+- **Clock** - Get the current time in your local timezone to keep tracking your day.
+- **Hadeeth of the Day** - Read a new random `Hadeeth Shareef` every time you open a new tab in Arabic and English with reference information in `Sahih Al-Bukhari`.
+- **Quick Access Links** - Access your most visited websites and bookmarks with a single click.
+- **Todo List** - Create a todo list and manage your tasks.
+- **Wallpapers** - Get beautiful wallpapers and customize it as you like through settings.
+
+> Soon extra features and a show video will be added.
+
+## Technologies:
+
+- [Firefox Browser Extension Docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
+- [Typescript](https://www.typescriptlang.org/)
+- [ReactJS](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [TailWindCSS](https://tailwindcss.com/)
+- [ESLint](https://eslint.org/)
+- [Hadeeth API](https://github.com/fawazahmed0/hadith-api)
+- [FontAwesome-Icons](https://fontawesome.com/)
+
+## Used Media And Copy Rights
+- Wallpapers from [WallHaven](https://wallhaven.cc/w/jxd1x5)
+  > Also soon we will implement the API, So users can select and change the wallpaper by just some clicking from settings dialog.
+- Default Quick Link icon from [FlatIcon](https://www.flaticon.com/free-icon/link_7471685?term=link&page=1&position=54&origin=search&related_id=7471685)
+- Extension Logo from [Freepik](https://www.freepik.com/icon/user-interface_7580043#fromView=search&term=new+tab+plus&page=1&position=36&track=ais&uuid=692b2c7e-baf7-40b9-ab5a-6e945f3c5973)
+
+## Installation
+
+We will deploy the extension on the firefox store soon when it be ready for production release.
+
+For now you can install it manually by building from source on your own by following the steps below or by downloading the latest release from github.
+
+### Building From Source
+
+- You need [Node.js](https://nodejs.org/en/download/current) if you don't have it already.
+
+- Clone this repository
+
+  ```bash
+  $ git clone --depth=1 https://github.com/Davenchy/utm.git
+  ```
+
+- Install dependencies and start the building process.
+
+  ```bash
+  npm install
+  npm run build
+  ```
+
+- A new directory is created `/dist` that contains the extension files.
+
+# Add The Extension Manually To Firefox
+
+- Go to `about:debugging#/runtime/this-firefox` then click on `Load Temporary Add-on...` button.
+
+![img](/public/load_extention.png)
+
+- Then select the manifest file `/dist/manifest.json`.
+- After that you will find the extension in the extensions list during your current session.
+
+![img](/public/loaded.png)
+
+# Debugging
+
+- First you need to start the Vite development server.
+
+    ```bash
+    npm run dev
+    ```
+    
+- Then you can run a separated browser instance for debugging
+  or you can install it manual as shown above but you will need to manually reload the extension after each code update
+  while the next npm scripts will do it for you after each code update.
 
 ```bash
-npm install
-npm run dev
+# Start a firefox instance with the extension installed.
+$ npm run browser
+
+# Also you can open the instance with developer tools for debugging.
+$ npm run browser:dev
+
+# You can also set the path to the browser binary
+npm run browser -- --firefox /path/to/firefox
+
+# Also you can run the extension on chromium based browsers (still not fully supported yet and contains bugs)
+# You can contribute here <3.
+npm run browser -- --chromium-binary /path/to/any/chromium_based_browser
 ```
 
-- Start firefox with the extension installed for debugging
+## Contributing
 
-```bash
-npm run browser
-# OR open with developer tools
-npm run browser:dev
-```
+Your contribution is always welcome and appreciated. Go down to the Authors section and contact any of us to get started.
 
-### Chromium Based Browsers (Untested)
+Also feel free to fork and add your awesome features to UTM, at the end it's your extension anyway <3.
 
-- To run on chromium based browser for debugging
+## License
 
-```bash
-npm run browser -- --target chromium
-```
+[MIT License](https://choosealicense.com/licenses/mit/)
 
-- You can run multiple browsers by defining the target twice
+## Authors
 
-```bash
-npm run browser -- --target chromium --target firefox
-```
-
-### Browser Binary Path (Untested)
-
-- Set the path to the browser binary
-
-| Browser  | Option                                     |
-| :------: | :----------------------------------------- |
-| Firefox  | --firefox /path/to/firefox                 |
-| Chromium | --chromium-binary /path/to/chromium-binary |
-
-## More Soon
-
-- More information will be added soon
+- Fadi Assad: [Github](https://github.com/Davenchy) - [Linkedin](https://www.linkedin.com/in/fadi-asaad/)
+- Ammar Khaled: [Github](https://github.com/Ammar-Khaled) - [Linkedin](https://www.linkedin.com/in/ammar-khaled-895aa823b/)
+- Ahmed Mamdouh: [Github](https://github.com/Ahmed-D007A) - [Linkedin](https://www.linkedin.com/in/ahmed-mamdouh-884805261/)

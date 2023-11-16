@@ -19,6 +19,7 @@ const generateRandomHadithURL = () => {
     return { arabicURL, englishURL };
 };
 
+// The Hadith API returns a JSON object with the following structure:
 interface HadithAPIResult {
     hadiths: { text: string }[];
     metadata: {
@@ -27,11 +28,17 @@ interface HadithAPIResult {
     };
 }
 
+// The HadithEntity is the data structure that is used to store the Hadith text.
 interface HadithEntity {
     hadith: string;
     details: string;
 }
 
+/**
+ * Fetches a Hadith from the Hadith API.
+ * @param url The URL to fetch the Hadith from.
+ * @returns Promise<HadithEntity>
+ */
 async function fetchHadithAPI(url: string): Promise<HadithEntity> {
     const response = await fetch(url);
     const data: HadithAPIResult = await response.json();
@@ -44,6 +51,7 @@ async function fetchHadithAPI(url: string): Promise<HadithEntity> {
     return { hadith, details };
 }
 
+// The useHadith hook fetches a random Hadith from the Hadith API.
 function useHadith() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [hadithArabic, setHadithArabic] = useState("");
@@ -68,6 +76,7 @@ function useHadith() {
     return { isLoading, hadithArabic, hadithEnglish, hadithDetails, fetch };
 }
 
+// The HadithSection component displays the Hadith text and its details.
 export function HadithSection() {
     const { isLoading, hadithArabic, hadithEnglish, hadithDetails } = useHadith();
 
@@ -88,6 +97,10 @@ export function HadithSection() {
     ) : null;
 }
 
+/**
+ * Renders a section displaying a random Hadith in Arabic and English, along with its details.
+ * @returns JSX.Element
+ */
 export default function Hadith() {
     return (
         <OpenCloseSystem

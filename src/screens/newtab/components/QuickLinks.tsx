@@ -17,6 +17,10 @@ import {
   OpenCloseSystem,
 } from "@/features/OpenCloseSystem";
 
+/**
+ * A form for adding or editing a quick link.
+ * @param link - The quick link to edit, if any.
+ */
 function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const { close } = useOpenCloseSystem("quickLinksDialog");
   const { addQuickLink, setQuickLink } = useQuickLinksManager();
@@ -24,6 +28,13 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   const [url, setUrl] = useState(link?.url || "");
   const [icon, setIcon] = useState(link?.icon || "");
 
+  /**
+   * Gets the URL of the icon to use for the quick link.
+   * If an icon URL is provided, it is used.
+   * Otherwise, the URL of the website is used to try to find a favicon.
+   * If no favicon is found, a default icon is used.
+   * @returns The URL of the icon to use.
+   */
   const getIconUrl = (): string => {
     if (icon.length > 7) return icon;
     try {
@@ -35,6 +46,11 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
     }
   };
 
+  /**
+   * Saves the quick link.
+   * If a link is being edited, it is updated.
+   * Otherwise, a new link is added.
+   */
   const save = () => {
     if (!url) return;
     const quickLink: IQuickLink = {
@@ -48,6 +64,7 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
     close();
   };
 
+  // Register hotkeys for saving and closing the form.
   useHotKeys(e => e.key === "Escape", close);
   useHotKeys(e => e.key === "s" && e.ctrlKey, save, [link, title, url, icon]);
 
@@ -99,6 +116,12 @@ function QuickLinkForm({ link }: { link?: IQuickLink }) {
   );
 }
 
+/**
+ * A single quick link.
+ * @param link - The quick link to display.
+ * @param onEditClicked - The function to call when the edit button is clicked.
+ * @param onRemoveClicked - The function to call when the remove button is clicked.
+ */
 function QuickLink({
   link,
   onEditClicked,
@@ -108,6 +131,9 @@ function QuickLink({
   onEditClicked: () => void;
   onRemoveClicked: () => void;
 }) {
+  /**
+   * Opens the quick link in a new tab.
+   */
   const open = () =>
     browser.tabs.getCurrent()
       .then((tab) => {
@@ -141,11 +167,19 @@ function QuickLink({
   );
 }
 
+/**
+ * A list of quick links.
+ */
 function QuickLinks() {
   const { open } = useOpenCloseSystem("quickLinksDialog");
   const { quickLinks, removeQuickLink } = useQuickLinksManager();
   const [link, setLink] = useState<IQuickLink | undefined>();
 
+  /**
+   * Opens the quick link form with the given link.
+   * If no link is provided, a new link is added.
+   * @param link - The link to edit, if any.
+   */
   const openWith = (link: IQuickLink | undefined = undefined) => {
     setLink(link);
     open();

@@ -15,6 +15,12 @@ import InputBox from "./InputBox";
 import useHotKeys from "@/features/HotKeys";
 import useTodoManager from "@/features/TodoManager";
 
+/**
+ * Renders a component that displays a circle icon that is either checked or unchecked based on the state prop.
+ * @param state - A boolean value indicating whether the circle icon should be checked or unchecked.
+ * @param onClick - A function to be called when the component is clicked.
+ * @returns A React component.
+ */
 function DoneComponent({
   state,
   onClick
@@ -33,6 +39,14 @@ function DoneComponent({
   );
 }
 
+/**
+ * Renders a todo item component.
+ * @param item - An object representing the todo item to be rendered.
+ * @param onRemove - A function to be called when the todo item is removed.
+ * @param onToggle - A function to be called when the todo item is toggled.
+ * @param onUpdate - A function to be called when the todo item is updated.
+ * @returns A React component.
+ */
 function TodoItem({
   item,
   onRemove,
@@ -103,6 +117,11 @@ function TodoItem({
   );
 }
 
+/**
+ * Renders a component that allows the user to add a new todo item.
+ * @param onAddRequest - A function to be called when the user submits a new todo item.
+ * @returns A React component.
+ */
 function AddTodoItem({
   onAddRequest
 }: {
@@ -140,6 +159,10 @@ function AddTodoItem({
   );
 }
 
+/**
+ * Renders a todo section component.
+ * @returns A React component.
+ */
 function TodoSection() {
   const {
     todoItems,

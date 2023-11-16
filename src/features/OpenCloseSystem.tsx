@@ -19,6 +19,7 @@ const OpenCloseSystemContext = createContext<IOpenCloseSystem | undefined>(
 	undefined
 );
 
+// This component is used to manage the open/close state of different components.
 export function OpenCloseSystemProvider({
 	defaultConfig,
 	children
@@ -35,6 +36,7 @@ export function OpenCloseSystemProvider({
 	);
 }
 
+// This function is used to manage the open/close state of a component.
 export function useOpenCloseSystem(systemId: SystemID): IOpenCloseSystemHook {
 	const context = useContext(OpenCloseSystemContext);
 	if (!context)
@@ -48,6 +50,7 @@ export function useOpenCloseSystem(systemId: SystemID): IOpenCloseSystemHook {
 	return { active: context.state[systemId], open, close, toggle };
 }
 
+// exports the OpenCloseSystem component.
 export function OpenCloseSystem({
 	systemId,
 	style,

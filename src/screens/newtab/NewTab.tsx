@@ -1,3 +1,8 @@
+/**
+ * Renders the New Tab screen with a clock, a hadith box, quick links, settings and a todo section.
+ * Allows the user to open and close the todo section and settings dialog.
+ * @returns NewTab :JSX.Element
+ */
 import "@/main.css";
 import Clock from "./components/Clock";
 import Hadith from "./components/Hadith";

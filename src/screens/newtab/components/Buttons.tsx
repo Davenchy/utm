@@ -1,3 +1,6 @@
+// This file defines the Button and CircleButton React Components of the new tab page.
+// It is a set of buttons that allow the user, for instance, to open and close the new tab page's settings menu
+
 import { IOpenCloseSystemHook } from "@/features/OpenCloseSystem";
 import classNames from "classnames";
 
@@ -23,6 +26,7 @@ type ButtonProps = BaseButtonProps &
 		}
 	);
 
+// The Button can be styled in three ways: primary, label, and active
 const buttonStyles = {
 	main: "font-bold rounded w-fit py-1 px-2 outline-none",
 	active:

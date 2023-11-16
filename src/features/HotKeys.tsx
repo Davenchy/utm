@@ -1,5 +1,6 @@
 import { DependencyList, useCallback, useEffect } from "react";
 
+// This is a custom hook that allows you to register a callback to be called when a certain key combination is pressed.
 export default function useHotKeys(
 	detector: (event: KeyboardEvent) => boolean,
 	callback: () => any,

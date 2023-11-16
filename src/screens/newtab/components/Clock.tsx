@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 
+/**
+ * A clock component that displays the current time in hours and minutes with AM/PM indicator.
+ * @returns A React component that displays the current time.
+ */
 function Clock() {
 	const [date, setDate] = useState<Date>(new Date());
 	const m = date.getMinutes();
@@ -14,6 +18,7 @@ function Clock() {
 		return () => clearInterval(timerId);
 	}, []);
 
+	// return the clock component
 	return <div className="flex items-center font-bold">
 		<span className="p-4 text-9xl">{h < 10 ? "0" + h : h}</span>
 		<div className="flex flex-col text-5xl text-center">
