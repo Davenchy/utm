@@ -1,10 +1,13 @@
 # Universal Tab Manager - UTM
 
-A simple, clean and powerful tab manager for your browser
-![](/public/screenforreadme.jpg)
+A simple, clean and powerful tab manager for your browser.
+
+![The UTM extension NewTab page on Firefox](/public/screenforreadme.jpg)
 
 ## Key Features
+
 ### <img src="public/icons/icon.png" width=20 height=20> Managing New Tabs
+
  **New Tab Page** - UTM replaces your new tab page with a beautiful and customizable page that helps you stay focused and productive:
 - **Clock** - Get the current time in your local timezone to keep tracking your day.
 - **Hadeeth of the Day** - Read a new random `Hadeeth Shareef` every time you open a new tab in Arabic and English with reference information in `Sahih Al-Bukhari`.
@@ -12,58 +15,93 @@ A simple, clean and powerful tab manager for your browser
 - **Todo List** - Create a todo list and manage your tasks.
 - **Wallpapers** - Get beautiful wallpapers and customize it as you like through settings.
 
-- **And more...** watch this [demo video]() to explore the features of UTM till now.
+> Soon extra features and a show video will be added.
 
 ## Technologies:
 
 - [Firefox Browser Extension Docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
-- HTML5 & CSS3 & Typescript
-- [Reactjs](https://react.dev/)
+- [Typescript](https://www.typescriptlang.org/)
+- [ReactJS](https://react.dev/)
 - [Vite](https://vitejs.dev/)
-- [Tailwindcss](https://tailwindcss.com/)
-- [eslint](https://eslint.org/)
+- [TailWindCSS](https://tailwindcss.com/)
+- [ESLint](https://eslint.org/)
 - [Hadeeth API](https://github.com/fawazahmed0/hadith-api)
+- [FontAwesome-Icons](https://fontawesome.com/)
+
+## Used Media And Copy Rights
+- Wallpapers from [WallHaven](https://wallhaven.cc/w/jxd1x5)
+  > Also soon we will implement the API, So users can select and change the wallpaper by just some clicking from settings dialog.
+- Default Quick Link icon from [FlatIcon](https://www.flaticon.com/free-icon/link_7471685?term=link&page=1&position=54&origin=search&related_id=7471685)
+- Extension Logo from [Freepik](https://www.freepik.com/icon/user-interface_7580043#fromView=search&term=new+tab+plus&page=1&position=36&track=ais&uuid=692b2c7e-baf7-40b9-ab5a-6e945f3c5973)
 
 ## Installation
 
-We will deploy the extension on the firefox addons store soon, but for now you can install it manually by following these steps:
+We will deploy the extension on the firefox store soon when it be ready for production release.
 
-### Development and Debugging
+For now you can install it manually by building from source on your own by following the steps below or by downloading the latest release from github.
 
-- First download this repository and install [npm](https://www.npmjs.com/) if you don't have it already
+### Building From Source
 
-- Download dependencies and start the building server:
+- You need [Node.js](https://nodejs.org/en/download/current) if you don't have it already.
 
-    ```bash
-    npm install
-    npm run dev
-    ```
+- Clone this repository
 
-## Usage
+  ```bash
+  $ git clone --depth=1 https://github.com/Davenchy/utm.git
+  ```
 
-Once you have installed the add-on, you can :
-```bash
-# start firefox with the extension installed
-npm run browser
-# OR open with developer tools for debugging
-npm run browser:dev
-# you can also set the path to the browser binary
-npm run browser -- --firefox /path/to/firefox_bin
-```
+- Install dependencies and start the building process.
 
-Or
+  ```bash
+  npm install
+  npm run build
+  ```
 
-you can go to `about:debugging#/runtime/this-firefox` and click on `Load Temporary Add-on...`
+- A new directory is created `/dist` that contains the extension files.
+
+# Add The Extension Manually To Firefox
+
+- Go to `about:debugging#/runtime/this-firefox` then click on `Load Temporary Add-on...` button.
 
 ![img](/public/load_extention.png)
 
-Then select the `manifest.json` file in the `dist` folder in the repository. After that you will find the extension in the extensions list during your current session.
+- Then select the manifest file `/dist/manifest.json`.
+- After that you will find the extension in the extensions list during your current session.
+
 ![img](/public/loaded.png)
 
+# Debugging
+
+- First you need to start the Vite development server.
+
+    ```bash
+    npm run dev
+    ```
+    
+- Then you can run a separated browser instance for debugging
+  or you can install it manual as shown above but you will need to manually reload the extension after each code update
+  while the next npm scripts will do it for you after each code update.
+
+```bash
+# Start a firefox instance with the extension installed.
+$ npm run browser
+
+# Also you can open the instance with developer tools for debugging.
+$ npm run browser:dev
+
+# You can also set the path to the browser binary
+npm run browser -- --firefox /path/to/firefox
+
+# Also you can run the extension on chromium based browsers (still not fully supported yet and contains bugs)
+# You can contribute here <3.
+npm run browser -- --chromium-binary /path/to/any/chromium_based_browser
+```
 
 ## Contributing
 
 Your contribution is always welcome and appreciated. Go down to the Authors section and contact any of us to get started.
+
+Also feel free to fork and add your awesome features to UTM, at the end it's your extension anyway <3.
 
 ## License
 
@@ -71,7 +109,6 @@ Your contribution is always welcome and appreciated. Go down to the Authors sect
 
 ## Authors
 
-- Fadi Assad: [Github](https://github.com/Davenchy) - [Linkedin](https://www.linkedin.com/in/fadi-asaad/
-)
+- Fadi Assad: [Github](https://github.com/Davenchy) - [Linkedin](https://www.linkedin.com/in/fadi-asaad/)
 - Ammar Khaled: [Github](https://github.com/Ammar-Khaled) - [Linkedin](https://www.linkedin.com/in/ammar-khaled-895aa823b/)
 - Ahmed Mamdouh: [Github](https://github.com/Ahmed-D007A) - [Linkedin](https://www.linkedin.com/in/ahmed-mamdouh-884805261/)
