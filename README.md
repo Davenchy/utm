@@ -2,6 +2,8 @@
 
 A simple, clean and powerful tabs manager for your browser.
 
+> This project is still in its early stage.
+
 ![The UTM extension NewTab page on Firefox](/public/screenforreadme.jpg)
 
 ## The Problem
