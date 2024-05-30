@@ -6,6 +6,14 @@ A simple, clean and powerful tabs manager for your browser.
 
 ![The UTM extension NewTab page on Firefox](/public/screenforreadme.jpg)
 
+## Development Status
+
+**The Context**: This project was developed as part of the **ALX Portfolio Project** for the Short Software Engineering Specialization (SE Fundamentals).
+
+**Current Status**: Due to time constraints and a shift in my current development focus, active development on this project is currently on hold.
+
+**Future Considerations**: I may revisit this project in the future if the need arises or if I have the opportunity to dedicate further time to it.
+
 ## The Problem
 
 As tech lovers and future software pros, we're into daily searches and online browsing. But, things can get a bit much when we end up with tons of tabs and tasks, causing our computer to slow down or even freeze.
